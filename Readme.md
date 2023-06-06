@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
-* Студент: [Gleb Limanskiy](https://up.htmlacademy.ru/ecmascript/20/user/1771229).
-* Наставник: `Неизвестно`.
+* Студент: [Gleb Limanskiy](https://up.htmlacademy.ru/ecmascript/17/user/1771229).
+* Наставник: [Олег Глущенко](https://htmlacademy.ru/profile/id305355).
 
 ---
 
