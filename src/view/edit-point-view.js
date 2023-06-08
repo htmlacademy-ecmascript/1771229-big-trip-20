@@ -24,16 +24,17 @@ const createOfferListItem = (offer, type, isChecked) => {
         </div>
      `;
 };
-const destinationOptions = (destinationsList, destinationOfPoint) =>
-{
-  if (!destinationsList) {return '';}
+const destinationOptions = (destinationsList, destinationOfPoint) => {
+  if (!destinationsList) {
+    return '';
+  }
   let optionsList = '';
   for (const destination of destinationsList){
     optionsList = `${optionsList}<option value="${destination.name}" ${destinationOfPoint === destination.name ? 'selected' : ''}>${destination.name}</option>}`;
   }
   return optionsList;
 };
-const createTypeOptionsList =(typesArray, chosenType) => {
+const createTypeOptionsList = (typesArray, chosenType) => {
   let optionsList = '';
   for (const type of typesArray){
     optionsList = `${optionsList}
@@ -46,8 +47,10 @@ const createTypeOptionsList =(typesArray, chosenType) => {
 };
 
 const createOffersOfPointList = (offersOfType, offersOfPoint, type) => {
-  if (!offersOfType) {return '';}
-  let offersOfPointList ='';
+  if (!offersOfType) {
+    return '';
+  }
+  let offersOfPointList = '';
   //console.log(offersOfType);
   for (const offerOfType of offersOfType) {
     let isChecked = false;
@@ -163,7 +166,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #datepickerFrom = null;
   #datepickerTo = null;
-  #offers = null;                                                       //offer, destination
+  #offers = null; //offer, destination
   #destinations = null;
   constructor(point = NEW_POINT, offers, destinations){
     super();
@@ -203,7 +206,7 @@ export default class EditPointView extends AbstractStatefulView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this._callback.formSubmit(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations));
-    this.element.querySelector('.event__input--price' )
+    this.element.querySelector('.event__input--price')
       .addEventListener('input', this.#priceInputHandler);
   };
 
@@ -228,13 +231,12 @@ export default class EditPointView extends AbstractStatefulView {
   #offerChangeHandler = (evt) => {
     const newState = this._state.offers;
     if(newState.includes(Number(evt.target.id))) {
-      const index = newState.indexOf(evt.target.id);
+      const index = newState.indexOf(Number(evt.target.id));
       newState.splice(index,1);
-    }
-    else {
+    } else {
       newState.push(Number(evt.target.id));
     }
-    newState.sort();
+    //newState.sort();
 
     this._setState({
       point: {offers: newState},
@@ -249,14 +251,14 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
-  #setInnerHandlers =() => {
+  #setInnerHandlers = () => {
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__type-group')
       .addEventListener('input', this.#typeInputHandler);
     this.element.querySelector('.event__available-offers')
       .addEventListener('change', this.#offerChangeHandler);
-    this.element.querySelector('.event__input--price' )
+    this.element.querySelector('.event__input--price')
       .addEventListener('input', this.#priceInputHandler);
   };
 

@@ -104,6 +104,36 @@ const offers =
           },
         ]
       }),
+    (
+      {
+        'type': 'drive',
+        'offers': [
+        ]
+      }),
+    (
+      {
+        'type': 'flight',
+        'offers': [
+        ]
+      }),
+    (
+      {
+        'type': 'check-in',
+        'offers': [
+        ]
+      }),
+    (
+      {
+        'type': 'sightseeing',
+        'offers': [
+        ]
+      }),
+    (
+      {
+        'type': 'restaurant',
+        'offers': [
+        ]
+      }),
 
   ];
 

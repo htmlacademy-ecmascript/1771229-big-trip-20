@@ -38,7 +38,17 @@ const destinations = [
         'description': 'Chamonix parliament building'
       }
     ]
-  }
+  },
+  {
+    'description': 'This html element is generated from array of destinations',
+    'name': 'Added in',
+    'pictures': [
+      {
+        'src': 'http://picsum.photos/300/200?r=0.0762563005163317',
+        'description': 'Chamonix parliament building'
+      }
+    ]
+  },
 ];
 
 export const getDestinations = () => destinations;
