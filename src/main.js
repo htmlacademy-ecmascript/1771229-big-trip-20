@@ -1,4 +1,4 @@
-import PointsModel from './model/points-model.js';
+//import PointsModel from './model/points-model.js';
 import FiltersPresenter from './presenter/filters-presenter.js';
 import PointListPresenter from './presenter/point-list-presenter.js';
 

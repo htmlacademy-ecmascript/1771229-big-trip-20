@@ -22,7 +22,7 @@ const createOfferListItem = (offer) => {
 
 const createOffersOfPointList = (offersOfType, offersOfPoint) => {
 
-  let offersOfPointList ='';
+  let offersOfPointList = '';
   for (const offerOfType of offersOfType) {
     for (const offerOfPoint of offersOfPoint) {
       if (offerOfType.id === offerOfPoint) {
@@ -82,7 +82,8 @@ const createPointTemplate = (point, offersByType) => {
   </button>
 </div>
 </li>
-`);};
+`);
+};
 
 export default class PointView extends AbstractView {
 

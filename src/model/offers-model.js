@@ -4,5 +4,7 @@ import {
 
 export default class OffersModel {
   #offers = generateOffers();
-  get offers() { return this.#offers;}
+  get offers() {
+    return this.#offers;
+  }
 }

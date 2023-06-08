@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import PointsModel from '../model/points-model.js';
-import {render,  RenderPosition} from '../framework/render.js';
+import {render, RenderPosition} from '../framework/render.js';
 import NewPointView from '../view/new-point-view.js';
 import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
@@ -65,7 +65,7 @@ export default class PointListPresenter {
   };
 
   #renderPointList = () => {
-    console.log(this.#pointListComponent.element, this.#pointListContainer);
+  //  console.log(this.#pointListComponent.element, this.#pointListContainer);
     render(this.#pointListComponent, this.#pointListContainer);
   };
   //----------------------------------------------------------------------

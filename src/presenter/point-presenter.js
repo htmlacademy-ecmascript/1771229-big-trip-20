@@ -25,7 +25,7 @@ export default class PointPresenter {
     this.#pointListComponent = pointListComponent;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
-    console.log('point presenter', pointListComponent, changeData, changeMode);
+    //console.log('point presenter', pointListComponent, changeData, changeMode);
 
   }
 
@@ -92,7 +92,7 @@ export default class PointPresenter {
     this.#isInEditMode = false;
   };
 
-  #onEscKeyDown =  (evt) => {
+  #onEscKeyDown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#editPointComponent.reset(this.#point);
