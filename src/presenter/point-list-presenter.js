@@ -20,6 +20,7 @@ export default class PointListPresenter {
 
   #pointPresenter = new Map();
   #sortComponent = null;
+  #currentSortType = SortType.DEFAULT;
   constructor(){
     //!!
     this.#pointsModel.addObserver(this.#handleModelEvent);
@@ -74,12 +75,13 @@ export default class PointListPresenter {
     render(new NewPointView(), this.#pointListComponent.element);
   };
 
-  #renderNoPoints = () => {
-    render(new NoPointsView(), this.#pointListComponent.element);
+  #renderNoPoints = (reason) => {
+    console.log('reason', reason);
+    render(new NoPointsView(reason), this.#pointListComponent.element);
   };
 
   #renderAllPoints = (points) => {
-    if (!points) {
+    if (points.length === 0) {
       this.#renderNoPoints();
       return;
     }
@@ -88,8 +90,6 @@ export default class PointListPresenter {
       this.#renderPoint(point);
     });
   };
-
-  #currentSortType = SortType.DEFAULT;
 
   init = (pointListContainer) => {
     this.#pointListContainer = pointListContainer;

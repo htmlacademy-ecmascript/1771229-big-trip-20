@@ -18,12 +18,14 @@ export const UpdateType = {
 };
 
 export const FilterType = {
-  EVERYTHING: 'EVERYTHING',
-  FUTURE: 'FUTURE',
-  PRESENT: 'PRESENT',
-  PAST: 'PAST',
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
 };
 /*
+export const
+
 export const UserAction = {
   UPDATE: 'UPDATE',
   ADD: 'ADD',
@@ -40,5 +42,4 @@ export const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
   PAST: 'past',
-};
-*/
+};*/
