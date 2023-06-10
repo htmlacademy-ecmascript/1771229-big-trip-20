@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import {FilterType} from '../const.js';
 
 const createFiltersTemplate = () => `
 <form class="trip-filters" action="#" method="get">
@@ -25,10 +26,35 @@ const createFiltersTemplate = () => `
 <button class="visually-hidden" type="submit">Accept filter</button>
 </form>
 `;
-
+/*
 export default class FiltersView extends AbstractView {
 
   get template() {
     return createFiltersTemplate();
   }
+  */
+
+export default class FiltersView extends AbstractView {
+  #currentSortType = null;
+
+  constructor(currentSortType) {
+    super();
+    this.#currentSortType = currentSortType;
+  }
+
+  get template() {
+    return createFiltersTemplate();
+  }
+
+  setFilterChangeHandler = (callback) => {
+    this._callback.filterChange = callback;
+    this.element.addEventListener('change', this.#filterChangeHandler);
+  };
+
+  #filterChangeHandler = (evt) => {
+    evt.preventDefault();
+    console.log(evt.target.value);
+    this._callback.filterChange(evt.target.value);
+  };
+
 }

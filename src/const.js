@@ -20,7 +20,8 @@ export const UpdateType = {
 export const FilterType = {
   EVERYTHING: 'EVERYTHING',
   FUTURE: 'FUTURE',
-  PAST: 'PAST'
+  PRESENT: 'PRESENT',
+  PAST: 'PAST',
 };
 /*
 export const UserAction = {
