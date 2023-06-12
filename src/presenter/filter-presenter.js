@@ -5,9 +5,9 @@ export default class FiltersPresenter {
 
   #filterContainer = null;
   #filterComponent = null;
-  #currentFilterType = null;
+  #currentFilterType = FilterType.DEFAULT;
+
   init = (filterContainer) => {
-    this.#currentFilterType = FilterType.DEFAULT;
     this.#filterContainer = filterContainer;
     //render(new FilterView(), this.#filterContainer);
     this.#renderFilter();

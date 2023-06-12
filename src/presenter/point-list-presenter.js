@@ -80,13 +80,13 @@ export default class PointListPresenter {
     render(new NoPointsView(reason), this.#pointListComponent.element);
   };
 
-  #renderAllPoints = (points) => {
-    if (points.length === 0) {
+  #renderAllPoints = () => {
+    if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
     }
-    console.log('renderallpoints',points);
-    points.forEach((point) => {
+    console.log('renderallpoints',this.points);
+    this.points.forEach((point) => {
       this.#renderPoint(point);
     });
   };
@@ -132,13 +132,13 @@ export default class PointListPresenter {
         console.log('minor');
         // - обновить список (например, когда задача ушла в архив)
         this.#clearPointsList();
-        this.#renderPoint(data); //points list?______
+        this.#renderAllPoints(); //points list?______
         break;
       case UpdateType.MAJOR:
         console.log('major');
         // - обновить всю доску (например, при переключении фильтра)
         this.#clearPointsList({resetRenderedTaskCount: true, resetSortType: true});
-        this.#renderAllPoints(data); //points list?_____
+        this.#renderAllPoints(); //points list?_____
         break;
     }
   };

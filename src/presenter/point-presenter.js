@@ -60,10 +60,10 @@ export default class PointPresenter {
       replace(this.#editPointComponent, prevEditPointComponent);
     }
 
-    remove(prevPointComponent);
-    remove(prevEditPointComponent);
+    //remove(prevPointComponent);
+    //remove(prevEditPointComponent);
 
-    render(this.#pointComponent, this.#pointListComponent);
+    //render(this.#pointComponent, this.#pointListComponent);
   };
 
   destroy = () => {
