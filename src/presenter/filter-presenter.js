@@ -1,11 +1,11 @@
 import {render, RenderPosition} from '../render.js';
 import FilterView from '../view/filter-view.js';
 import {FilterType, UpdateType, UserAction} from '../const.js';
-export default class FiltersPresenter {
+export default class FilterPresenter {
 
   #filterContainer = null;
   #filterComponent = null;
-  #currentFilterType = FilterType.DEFAULT;
+  #currentFilterType = FilterType.EVERYTHING;
 
   init = (filterContainer) => {
     this.#filterContainer = filterContainer;

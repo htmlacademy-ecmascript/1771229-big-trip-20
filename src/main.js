@@ -11,3 +11,4 @@ const filterPresenter = new FilterPresenter();
 
 pointListPresenter.init(pointListContainer);
 filterPresenter.init(filtersContainer);
+

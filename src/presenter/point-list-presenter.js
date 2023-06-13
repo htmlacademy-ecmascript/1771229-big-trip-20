@@ -8,8 +8,8 @@ import NoPointsView from '../view/no-points-view.js';
 
 import PointPresenter from './point-presenter.js';
 
-import {SortType, UpdateType, UserAction} from '../const.js';
-import { sortByDay, sortByPrice, sortByTime } from '../dayjs-custom.js';
+import {SortType, UpdateType, UserAction, FilterType} from '../const.js';
+import { sortByDay, sortByPrice, sortByTime, filterByDate } from '../dayjs-custom.js';
 
 export default class PointListPresenter {
 
@@ -21,6 +21,8 @@ export default class PointListPresenter {
   #pointPresenter = new Map();
   #sortComponent = null;
   #currentSortType = SortType.DEFAULT;
+  #currentFilterType = FilterType.EVERYTHING;
+  #currentDate = new Date().toISOString;
   constructor(){
     //!!
     this.#pointsModel.addObserver(this.#handleModelEvent);
@@ -81,13 +83,19 @@ export default class PointListPresenter {
   };
 
   #renderAllPoints = () => {
+    console.log(this.#currentDate);
     if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
     }
     console.log('renderallpoints',this.points);
     this.points.forEach((point) => {
-      this.#renderPoint(point);
+      if (filterByDate(this.#currentFilterType, this.#currentDate, point.date_from, point.date_to)){
+        this.#renderPoint(point);
+        console.log('true point', point);
+      }
+      // удалить после отладки
+      else {console.log('false point', point);}
     });
   };
 

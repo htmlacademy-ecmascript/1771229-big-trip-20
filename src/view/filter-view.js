@@ -1,25 +1,25 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {FilterType} from '../const.js';
 
-const createFiltersTemplate = () => `
+const createFiltersTemplate = (currentFilterType = FilterType.EVERYTHING) => `
 <form class="trip-filters" action="#" method="get">
 <div class="trip-filters__filter">
-  <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked>
+  <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" ${currentFilterType === FilterType.EVERYTHING ? 'checked' : ''}>
   <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
 </div>
 
 <div class="trip-filters__filter">
-  <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future">
+  <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future" ${currentFilterType === FilterType.FUTURE ? 'checked' : ''}>
   <label class="trip-filters__filter-label" for="filter-future">Future</label>
 </div>
 
 <div class="trip-filters__filter">
-<input id="filter-present" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="present">
+<input id="filter-present" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="present" ${currentFilterType === FilterType.PRESENT ? 'checked' : ''}>
 <label class="trip-filters__filter-label" for="filter-present">Present</label>
 </div>
 
 <div class="trip-filters__filter">
-  <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="past">
+  <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="past" ${currentFilterType === FilterType.PAST ? 'checked' : ''}>
   <label class="trip-filters__filter-label" for="filter-past">Past</label>
 </div>
 
@@ -34,12 +34,12 @@ export default class FiltersView extends AbstractView {
   }
   */
 
-export default class FiltersView extends AbstractView {
-  #currentSortType = null;
+export default class FilterView extends AbstractView {
+  #currentFilterType = null;
 
-  constructor(currentSortType) {
+  constructor(currentFilterType) {
     super();
-    this.#currentSortType = currentSortType;
+    this.#currentFilterType = currentFilterType;
   }
 
   get template() {
