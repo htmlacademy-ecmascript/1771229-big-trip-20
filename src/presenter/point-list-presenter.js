@@ -16,16 +16,21 @@ export default class PointListPresenter {
   #pointListComponent = new PointListView();
   #pointListContainer = null;
 
-  #pointsModel = new PointsModel();
-
+  #pointsModel = null;
+  #filterModel = null;
+  #currentSortType = SortType.DEFAULT;
   #pointPresenter = new Map();
   #sortComponent = null;
-  #currentSortType = SortType.DEFAULT;
   #currentFilterType = FilterType.EVERYTHING;
   #currentDate = new Date().toISOString;
-  constructor(){
+  constructor(pointsModel, filterModel){
     //!!
+
+    this.#pointsModel = pointsModel;
+    this.#filterModel = filterModel;
+
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
