@@ -1,10 +1,10 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {FilterType} from '../const.js';
 
-const createFiltersTemplate = (currentFilterType = FilterType.EVERYTHING) => `
+const createFiltersTemplate = (currentFilterType) => `
 <form class="trip-filters" action="#" method="get">
 <div class="trip-filters__filter">
-  <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" ${currentFilterType === FilterType.EVERYTHING ? 'checked' : ''}>
+  <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" ${(currentFilterType === FilterType.EVERYTHING || currentFilterType === undefined) ? 'checked' : ''}>
   <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
 </div>
 
@@ -37,9 +37,15 @@ export default class FiltersView extends AbstractView {
 export default class FilterView extends AbstractView {
   #currentFilterType = null;
 
-  constructor(currentFilterType) {
+  #filters = null;
+  #handleFilterChange = null;
+
+  constructor(filters, currentFilterType, handleFilterChange) {
     super();
+    this.#filters = filters;
     this.#currentFilterType = currentFilterType;
+    this.#handleFilterChange = handleFilterChange;
+    this.element.addEventListener('change', this.#filterChangeHandler);
   }
 
   get template() {

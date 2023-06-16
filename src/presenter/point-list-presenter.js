@@ -9,7 +9,7 @@ import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 
 import {SortType, UpdateType, UserAction, FilterType} from '../const.js';
-import { sortByDay, sortByPrice, sortByTime, filterByDate } from '../dayjs-custom.js';
+import { sortByDay, sortByPrice, sortByTime} from '../dayjs-custom.js';
 
 export default class PointListPresenter {
 
@@ -22,7 +22,7 @@ export default class PointListPresenter {
   #pointPresenter = new Map();
   #sortComponent = null;
   #currentFilterType = FilterType.EVERYTHING;
-  constructor(pointsModel, filterModel){
+  constructor({pointsModel, filterModel}){
     //!!
 
     this.#pointsModel = pointsModel;
@@ -94,7 +94,7 @@ export default class PointListPresenter {
     console.log('renderallpoints',this.points);
     this.points.forEach((point) => {
       this.#renderPoint(point);
-      console.log('true point', point);
+      console.log('filtertype', FilterType);
     });
   };
 
