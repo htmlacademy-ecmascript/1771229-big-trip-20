@@ -11,7 +11,7 @@ const pointsModel = new PointsModel();
 const filterModel = new FilterModel();
 
 const pointListPresenter = new PointListPresenter(pointsModel, filterModel);
-const filterPresenter = new FilterPresenter();
+const filterPresenter = new FilterPresenter(filtersContainer, filterModel, pointsModel);
 
 pointListPresenter.init(pointListContainer);
 filterPresenter.init(filtersContainer);

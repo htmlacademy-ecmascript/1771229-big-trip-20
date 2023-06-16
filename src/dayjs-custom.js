@@ -4,6 +4,9 @@ export const getTimeFromIso = (isoDate) => dayjs(isoDate).format('HH:mm');
 export const getDateFromIso = (isoDate) => dayjs(isoDate).format('MMM DD');
 export const getEditableDateFromIso = (isoDate) => dayjs(isoDate).format('DD/MM/YY');
 const getComparableDateFromIso = (isoDate) => Number(dayjs(isoDate).format('YYYYMMDD'));
+
+const currentDate = new Date().toISOString;
+
 export const getDurationFromIso = (start, finish) => {
   if ((dayjs(finish).diff(dayjs(start), 'm')) < 0){
     throw 'Finish date is before start!';
@@ -78,22 +81,32 @@ export const sortByPrice = (a, b) => {
 };
 
 //export const filter
-export const filterByDate = (filterType, currentDate, dateFrom, dateTo)=> {
+const filterByDate = (filterType, dateFrom, dateTo)=> {
   if (filterType === FilterType.EVERYTHING){
     return true;
   }
   if (filterType === FilterType.FUTURE &&
-    getComparableDateFromIso(dateFrom) > getComparableDateFromIso(currentDate)){
+    getComparableDateFromIso(dateFrom) > getComparableDateFromIso(this.currentDate)){
     return true;
   }
   if (filterType === FilterType.PAST &&
-    getComparableDateFromIso(dateTo) < getComparableDateFromIso(currentDate)){
+    getComparableDateFromIso(dateTo) < getComparableDateFromIso(this.currentDate)){
     return true;
   }
   if (filterType === FilterType.PRESENT &&
-    getComparableDateFromIso(dateFrom) <= getComparableDateFromIso(currentDate) &&
+    getComparableDateFromIso(dateFrom) <= getComparableDateFromIso(this.currentDate) &&
     getComparableDateFromIso(dateTo) >= getComparableDateFromIso(currentDate)){
     return true;
   }
   return false;
+};
+
+export const filterPoints = (filterType, points) =>{
+  const filteredPointsList = null;
+  points.forEach((point) => {
+    if (filterByDate(filterType, point.dateFrom, point.dateTo)){
+      filteredPointsList.push(point);
+    }
+  });
+  return filteredPointsList;
 };

@@ -22,7 +22,6 @@ export default class PointListPresenter {
   #pointPresenter = new Map();
   #sortComponent = null;
   #currentFilterType = FilterType.EVERYTHING;
-  #currentDate = new Date().toISOString;
   constructor(pointsModel, filterModel){
     //!!
 
@@ -88,19 +87,14 @@ export default class PointListPresenter {
   };
 
   #renderAllPoints = () => {
-    console.log(this.#currentDate);
     if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
     }
     console.log('renderallpoints',this.points);
     this.points.forEach((point) => {
-      if (filterByDate(this.#currentFilterType, this.#currentDate, point.date_from, point.date_to)){
-        this.#renderPoint(point);
-        console.log('true point', point);
-      }
-      // удалить после отладки
-      else {console.log('false point', point);}
+      this.#renderPoint(point);
+      console.log('true point', point);
     });
   };
 
