@@ -1,7 +1,8 @@
 import {render, RenderPosition} from '../render.js';
 import FilterView from '../view/filter-view.js';
 import {FilterType, UpdateType, UserAction} from '../const.js';
-import { filterPoints } from '../dayjs-custom.js';
+//import { filterPoints } from '../dayjs-custom.js';
+import { replace } from '../framework/render.js';
 
 
 export default class FilterPresenter {
@@ -28,42 +29,27 @@ export default class FilterPresenter {
   };
 
 
-  init = (filterContainer) => {
-    this.#filterContainer = filterContainer;
-    this.#renderFilter();
+  init = () => {
 
-    const filters = this.filters;
     const prevFilterComponent = this.#filterComponent;
 
-    // новое
-    this.#filterComponent = new FilterView({
-      filters,
-      currentFilterType: this.#filterModel.filter,
-      onFilterTypeChange: this.#handleFilterChange
-    });
+
+    this.#filterComponent = new FilterView(this.#filterModel.filter);
+    this.#filterComponent.setFilterChangeHandler(this.#handleFilterChange);
 
     if (prevFilterComponent === null) {
       render(this.#filterComponent, this.#filterContainer);
       return;
     }
-
+    replace(this.#filterComponent, prevFilterComponent);
     // перерендер фильтров
   };
 
-
-  #renderFilter = () => {
-    console.log('renderfilter', this.#currentFilterType)
-    this.#filterComponent = new FilterView(this.#currentFilterType);
-    this.#filterComponent.setFilterChangeHandler(this.#handleFilterChange);
-
-    render(this.#filterComponent, this.#filterContainer, RenderPosition.AFTERBEGIN);
-  };
-
   #handleFilterChange = (filterType) => {
-    console.log(this.#currentFilterType, filterType);
-    if (this.#currentFilterType === filterType) {
+    if (this.#filterModel.filter === filterType) {
       return;
     }
+    console.log('trouble',this.#filterModel);
     this.#filterModel.setFilter(UpdateType.MAJOR, filterType);
     // фильтрация
     //this.#clearPointsList({resetRenderedTaskCount: true});
