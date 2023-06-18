@@ -105,7 +105,7 @@ export const filterPoints = (filterType, points) =>{
   //currentDate = currentDate.iso;
   const filteredPointsList = [];
   points.forEach((point) => {
-    console.log( '\npoint',point, filterType, point.date_from, point.date_to, currentDate)
+    //console.log('\npoint',point, filterType, point.date_from, point.date_to, currentDate);
     if (filterByDate(filterType, point.date_from, point.date_to, currentDate)){
       filteredPointsList.push(point);
     }

@@ -44,6 +44,8 @@ export default class PointPresenter {
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
 
+    this.#editPointComponent.setFormResetHandler(this.#handleFormReset);
+
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
 
@@ -113,6 +115,7 @@ export default class PointPresenter {
     this.#changeData(
       UserAction.UPDATE,
       UpdateType.PATCH,
+      // eslint-disable-next-line camelcase
       {...this.#point, is_favorite: !this.#point.is_favorite},
     );
 
@@ -127,7 +130,12 @@ export default class PointPresenter {
     this.#replaceEditWithStandard();
   };
 
-  #handleFormReset = () => {
+  #handleFormReset = (point) => {
+    this.#changeData(
+      UserAction.DELETE,
+      UpdateType.MAJOR,
+      point,
+    );
     this.#replaceEditWithStandard();
   };
 

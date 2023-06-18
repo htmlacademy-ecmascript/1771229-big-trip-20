@@ -189,6 +189,11 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   };
 
+  setFormResetHandler = (callback) => {
+    this._callback.formReset = callback;
+    this.element.querySelector('form').addEventListener('reset', this.#formResetHandler);
+  };
+
   reset = (point) => {
     this.updateElement(
       EditPointView.parsePointToState(point)
@@ -209,6 +214,20 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__input--price')
       .addEventListener('input', this.#priceInputHandler);
   };
+
+  #formResetHandler = (evt) => {
+    evt.preventDefault();
+
+    this._callback.formReset(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations));
+    //this.element.querySelector('.event__input--price').addEventListener('reset', this.#priceInputHandler);
+  };
+
+
+  /*#formResetHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  };
+*/
 
   setRollupButtonClickHandler = (callback) =>{
     this._callback.rollupClick = callback;
@@ -329,10 +348,6 @@ export default class EditPointView extends AbstractStatefulView {
     }
   };
 
-  #formResetHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.formSubmit();
-  };
 
   #priceInputHandler = (evt) => {
     evt.preventDefault();
