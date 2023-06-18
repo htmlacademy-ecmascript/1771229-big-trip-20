@@ -5,8 +5,6 @@ export const getDateFromIso = (isoDate) => dayjs(isoDate).format('MMM DD');
 export const getEditableDateFromIso = (isoDate) => dayjs(isoDate).format('DD/MM/YY');
 const getComparableDateFromIso = (isoDate) => Number(dayjs(isoDate).format('YYYYMMDD'));
 
-const currentDate = new Date().toISOString;
-
 export const getDurationFromIso = (start, finish) => {
   if ((dayjs(finish).diff(dayjs(start), 'm')) < 0){
     throw 'Finish date is before start!';
@@ -81,20 +79,20 @@ export const sortByPrice = (a, b) => {
 };
 
 //export const filter
-const filterByDate = (filterType, dateFrom, dateTo)=> {
+const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
   if (filterType === FilterType.EVERYTHING){
     return true;
   }
   if (filterType === FilterType.FUTURE &&
-    getComparableDateFromIso(dateFrom) > getComparableDateFromIso(this.currentDate)){
+    getComparableDateFromIso(dateFrom) > getComparableDateFromIso(currentDate)){
     return true;
   }
   if (filterType === FilterType.PAST &&
-    getComparableDateFromIso(dateTo) < getComparableDateFromIso(this.currentDate)){
+    getComparableDateFromIso(dateTo) < getComparableDateFromIso(currentDate)){
     return true;
   }
   if (filterType === FilterType.PRESENT &&
-    getComparableDateFromIso(dateFrom) <= getComparableDateFromIso(this.currentDate) &&
+    getComparableDateFromIso(dateFrom) <= getComparableDateFromIso(currentDate) &&
     getComparableDateFromIso(dateTo) >= getComparableDateFromIso(currentDate)){
     return true;
   }
@@ -102,9 +100,12 @@ const filterByDate = (filterType, dateFrom, dateTo)=> {
 };
 
 export const filterPoints = (filterType, points) =>{
-  const filteredPointsList = null;
+  let currentDate = new Date().toISOString();
+  //currentDate = currentDate.iso;
+  console.log('currentdate', currentDate)
+  const filteredPointsList = [];
   points.forEach((point) => {
-    if (filterByDate(filterType, point.dateFrom, point.dateTo)){
+    if (filterByDate(filterType, point.dateFrom, point.dateTo, currentDate)){
       filteredPointsList.push(point);
     }
   });
