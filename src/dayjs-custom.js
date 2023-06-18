@@ -80,6 +80,7 @@ export const sortByPrice = (a, b) => {
 
 //export const filter
 const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
+  //console.log(dateFrom);
   if (filterType === FilterType.EVERYTHING){
     return true;
   }
@@ -100,12 +101,12 @@ const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
 };
 
 export const filterPoints = (filterType, points) =>{
-  let currentDate = new Date().toISOString();
+  const currentDate = new Date().toISOString();
   //currentDate = currentDate.iso;
-  console.log('currentdate', currentDate)
   const filteredPointsList = [];
   points.forEach((point) => {
-    if (filterByDate(filterType, point.dateFrom, point.dateTo, currentDate)){
+    console.log( '\npoint',point, filterType, point.date_from, point.date_to, currentDate)
+    if (filterByDate(filterType, point.date_from, point.date_to, currentDate)){
       filteredPointsList.push(point);
     }
   });

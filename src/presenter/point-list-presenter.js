@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import PointsModel from '../model/points-model.js';
+//import PointsModel from '../model/points-model.js';
 import {render, RenderPosition} from '../framework/render.js';
 import NewPointView from '../view/new-point-view.js';
 import PointListView from '../view/point-list-view.js';
@@ -8,7 +8,7 @@ import NoPointsView from '../view/no-points-view.js';
 
 import PointPresenter from './point-presenter.js';
 
-import {SortType, UpdateType, UserAction, FilterType} from '../const.js';
+import {SortType, UpdateType, UserAction} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';
 
 export default class PointListPresenter {
@@ -108,10 +108,6 @@ export default class PointListPresenter {
     this.#renderPointList();
     this.#renderAllPoints(this.points);
 
-
-  };
-
-  #handlePointChange = (updatedPoint) => {
 
   };
 
