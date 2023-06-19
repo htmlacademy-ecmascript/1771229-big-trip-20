@@ -100,6 +100,7 @@ export default class PointPresenter {
       evt.preventDefault();
       this.#editPointComponent.reset(this.#point);
       document.removeEventListener('keydown', this.#onEscKeyDown);
+      this.#replaceEditWithStandard();
     }
   };
 

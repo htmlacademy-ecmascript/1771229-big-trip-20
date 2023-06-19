@@ -31,6 +31,23 @@ export const NoPointsExplanation = {
   PAST: 'There are no past events now',
 };
 /*
+export const NEW_POINT_DATA =
+{
+  'base_price': '',
+  'date_from': '',
+  'date_to': '',
+  'destination':
+     {
+       'description': '',
+       'name': '',
+       'pictures': []
+     },
+  'id': nanoid(),
+  'is_favorite': false,
+  'offers': [],
+  'type': 'train'
+}*/
+/*
 export const
 
 export const UserAction = {
