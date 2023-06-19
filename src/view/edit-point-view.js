@@ -74,10 +74,10 @@ const getOffersOfType = (offersByType, pointType) => {
   }
 };
 //-----------------------------------------------------------------------Main function--------------------------------------------------------------------------------
-const createEditPointTemplate = (pointData, offersByType, destinationsList) => {
+const createEditPointTemplate = (pointData, offersByType, destinationsList, isNew) => {
 
-  // eslint-disable-next-line no-unused-vars
-  //console.log('entry createEditPointTemplate', point, offersByType);
+
+  console.log('entry createEditPointTemplate', isNew);
   const {base_price: basePrice, date_from: dateFrom, date_to: dateTo, destination, offers, type} = pointData;
   const offersOfType = getOffersOfType(offersByType, type);
   //console.log (offersOfType, offers, type);
@@ -109,7 +109,7 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList) => {
       <label class="event__label  event__type-output" for="event-destination-1">
         ${type}
       </label>
-      <select class="event__input  event__input--destination" id="event-destination-1" name="event-destination" value="${destination.name}">
+      <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destination.name}">
         ${destinationOptions(destinationsList, destination.name)}
         </select>
     </div>
@@ -127,14 +127,21 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList) => {
         <span class="visually-hidden">Price</span>
         &euro;
       </label>
-      <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" min="1" value="${basePrice}">
+      <input class="event__input  event__input--price" id="event-price-1" required type="number" name="event-price" min="1" value="${basePrice}">
     </div>
 
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-    <button class="event__reset-btn" type="reset">Delete</button>
-    <button class="event__rollup-btn" type="button">
-      <span class="visually-hidden">Open event</span>
+    <button class="event__reset-btn" type="reset">
+
+    ${isNew ? 'Cancel' : 'Delete'}
+
     </button>
+
+    ${isNew ? '' : `<button class="event__rollup-btn" type="button">
+    <span class="visually-hidden">Open event</span>
+  </button>`}
+
+
   </header>
   <section class="event__details">
     <section class="event__section  event__section--offers">
@@ -168,11 +175,15 @@ export default class EditPointView extends AbstractStatefulView {
   #datepickerTo = null;
   #offers = null; //offer, destination
   #destinations = null;
-  constructor(point = NEW_POINT, offers, destinations){
+  #isNew = null;
+
+  constructor(point = NEW_POINT, offers, destinations, isNew){
     super();
     this._state = EditPointView.parsePointToState(point);
     this.#offers = offers;
     this.#destinations = destinations;
+
+    this.#isNew = isNew;
 
     this.#setInnerHandlers();
     this.#setDatepickerFrom();
@@ -180,7 +191,7 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    return createEditPointTemplate(this._state, this.#offers, this.#destinations);
+    return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew);
   }
   //removeElement 270
 
@@ -230,6 +241,7 @@ export default class EditPointView extends AbstractStatefulView {
 */
 
   setRollupButtonClickHandler = (callback) =>{
+    if (this.#isNew = true){return;}
     this._callback.rollupClick = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupButtonClickHandler);
   };
