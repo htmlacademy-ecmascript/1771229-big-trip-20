@@ -177,7 +177,7 @@ export default class EditPointView extends AbstractStatefulView {
   #destinations = null;
   #isNew = null;
 
-  constructor(point = NEW_POINT, offers, destinations, isNew){
+  constructor(point = NEW_POINT, offers, destinations, isNew = true){
     super();
     this._state = EditPointView.parsePointToState(point);
     this.#offers = offers;
@@ -241,7 +241,7 @@ export default class EditPointView extends AbstractStatefulView {
 */
 
   setRollupButtonClickHandler = (callback) =>{
-    if (this.#isNew = true){return;}
+  // if (this.#isNew = true){return;}
     this._callback.rollupClick = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupButtonClickHandler);
   };

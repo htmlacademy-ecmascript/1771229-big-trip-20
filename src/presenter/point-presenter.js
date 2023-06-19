@@ -18,14 +18,14 @@ export default class PointPresenter {
 
   #changeMode = null;
   #isInEditMode = false;
-  #isNew = null;
+  //#isNew = null;
   #destinationsList = null;
   #destinationsModel = new DestinationsModel();
-  constructor(pointListComponent, changeData, changeMode, isNew = true){
+  constructor(pointListComponent, changeData, changeMode){
     this.#pointListComponent = pointListComponent;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
-    this.#isNew = isNew;
+    //this.#isNew = isNew;
     //console.log('point presenter', pointListComponent, changeData, changeMode);
 
   }
@@ -40,7 +40,7 @@ export default class PointPresenter {
 
 
     this.#pointComponent = new PointView(point, this.#offersList);
-    this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList, this.#isNew);
+    this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
     this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
     //this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);

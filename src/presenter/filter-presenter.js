@@ -1,6 +1,6 @@
-import {render, RenderPosition} from '../render.js';
+import {render} from '../render.js';
 import FilterView from '../view/filter-view.js';
-import {FilterType, UpdateType, UserAction} from '../const.js';
+import {FilterType, UpdateType} from '../const.js';
 //import { filterPoints } from '../dayjs-custom.js';
 import { replace } from '../framework/render.js';
 

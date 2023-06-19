@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 //import PointsModel from '../model/points-model.js';
-import {render, RenderPosition} from '../framework/render.js';
+import {render, RenderPosition, remove} from '../framework/render.js';
 import NewPointView from '../view/new-point-view.js';
 import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
@@ -62,6 +62,10 @@ export default class PointListPresenter {
   #clearPointsList = () => {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
+    if (this.#noPointsView) {
+      remove(this.#noPointsView);
+      this.#noPointsView = null;
+    }
   };
   //----------------------------------------------
 
@@ -82,9 +86,13 @@ export default class PointListPresenter {
     render(new NewPointView(), this.#pointListComponent.element);
   };
 
+  #noPointsView = null;
+
   #renderNoPoints = (reason) => {
     console.log('reason', reason);
-    render(new NoPointsView(reason), this.#pointListComponent.element);
+    this.#noPointsView = new NoPointsView(reason);
+    render(this.#noPointsView, this.#pointListComponent.element);
+    //this.#noPointsView.destroy;
   };
 
   #renderAllPoints = () => {
@@ -94,6 +102,9 @@ export default class PointListPresenter {
     }
     const filteredPoints = filterPoints(this.#filterModel.filter, this.points);
     //console.log('renderallpoints',this.points);
+    if (filteredPoints.length === 0){
+      this.#renderNoPoints(this.#filterModel.filter);
+    }
     filteredPoints.forEach((point) => {
       this.#renderPoint(point);
       //console.log('filtertype', FilterType);
@@ -153,6 +164,7 @@ export default class PointListPresenter {
     if (this.#currentSortType === sortType) {
       return;
     }
+
     this.#currentSortType = (sortType);
     this.#clearPointsList({resetRenderedTaskCount: true});
     this.#renderAllPoints(this.points);
