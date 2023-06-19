@@ -34,12 +34,10 @@ export default class PointPresenter {
     this.#offersList = [...this.#offersModel.offers];
     this.#destinationsList = [...this.#destinationsModel.destinations];
 
-    const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
 
-    this.#pointComponent = new PointView(point, this.#offersList);
-    this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
+    this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList, true);
 
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
 
@@ -65,7 +63,6 @@ export default class PointPresenter {
   resetView = () => {
     if (this.#isInEditMode) {
       this.#editPointComponent.reset(this.#point);
-      //this.#replaceEditWithStandard();
     }
 
   };
@@ -77,9 +74,6 @@ export default class PointPresenter {
     document.addEventListener('keydown', this.#onEscKeyDown);
     this.#isInEditMode = true;
   };
-
-
-
 
 
   #removeEditPoint = () => {
@@ -96,16 +90,13 @@ export default class PointPresenter {
   };
 
 
-
-
-
   #handleFormSubmit = (point) => {
     this.#changeData(
       UserAction.UPDATE,
       UpdateType.MAJOR,
       point,
     );
-    this.#replaceEditWithStandard();
+    //this.#replaceEditWithStandard();
   };
 
   #handleFormReset = (point) => {
@@ -114,7 +105,7 @@ export default class PointPresenter {
       UpdateType.MAJOR,
       point,
     );
-    this.#replaceEditWithStandard();
+    //this.#replaceEditWithStandard();
   };
 
   reset = (point) => {

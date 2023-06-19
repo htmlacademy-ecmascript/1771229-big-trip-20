@@ -6,7 +6,7 @@ import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 
-import PointPresenter from './point-presenter.js';
+import PointPresenter from './new-point-presenter.js';
 
 import {SortType, UpdateType, UserAction} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';

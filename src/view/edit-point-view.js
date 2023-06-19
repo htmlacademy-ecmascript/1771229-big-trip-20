@@ -241,7 +241,9 @@ export default class EditPointView extends AbstractStatefulView {
 */
 
   setRollupButtonClickHandler = (callback) =>{
-  // if (this.#isNew = true){return;}
+    if (this.#isNew){
+      return;
+    }
     this._callback.rollupClick = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupButtonClickHandler);
   };
@@ -253,10 +255,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #typeInputHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({
-      type : evt.target.value,
-      offers: []
-    });
+    this.updateElement({ type : evt.target.value, offers: []});
   };
 
   #offerChangeHandler = (evt) => {
