@@ -11,7 +11,7 @@ export default class PointPresenter {
   #pointComponent = null;
   #editPointComponent = null;
   #point = null;
-  #pointListContainer = null;
+  //#pointListContainer = null;
   #offersList = null;
   #offersModel = new OffersModel();
   #changeData = null;
@@ -42,7 +42,7 @@ export default class PointPresenter {
     this.#pointComponent = new PointView(point, this.#offersList);
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
     this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
-    //this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);
+    this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
 
     this.#editPointComponent.setFormResetHandler(this.#handleFormReset);

@@ -52,3 +52,5 @@ const destinations = [
 ];
 
 export const getDestinations = () => destinations;
+
+

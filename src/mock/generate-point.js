@@ -86,3 +86,20 @@ const points =
 //console.log(points);
 
 export const generatePoints = () => points;
+
+export const NEW_POINT_DATA =
+{
+  'base_price': '',
+  'date_from': '',
+  'date_to': '',
+  'destination':
+     {
+       'description': '',
+       'name': '',
+       'pictures': []
+     },
+  'id': nanoid(),
+  'is_favorite': false,
+  'offers': [],
+  'type': 'train'
+};
