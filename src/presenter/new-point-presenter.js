@@ -1,14 +1,13 @@
 import {UserAction, UpdateType} from '../const.js';
 import {render, replace, remove} from '../framework/render.js';
-import PointView from '../view/point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 
 import OffersModel from '../model/offers-model.js';
 
 import DestinationsModel from '../model/destinations-model.js';
-export default class PointPresenter {
+export default class NewPointPresenter {
   #pointListComponent = null;
-  #pointComponent = null;
+  //#pointComponent = null;
   #editPointComponent = null;
   #point = null;
   //#pointListContainer = null;
@@ -34,7 +33,7 @@ export default class PointPresenter {
     this.#offersList = [...this.#offersModel.offers];
     this.#destinationsList = [...this.#destinationsModel.destinations];
 
-    const prevEditPointComponent = this.#editPointComponent;
+    //const prevEditPointComponent = this.#editPointComponent;
 
 
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList, true);
@@ -45,10 +44,12 @@ export default class PointPresenter {
 
 
     //переиспользование
-    if (prevEditPointComponent === null) {
+    /*if (prevEditPointComponent === null) {
       render(this.#editPointComponent, this.#pointListComponent);
       return;
-    }
+    }*/
+
+    render(this.#editPointComponent,this.#pointListComponent);
 
     if (this.#isInEditMode) {
       replace(this.#editPointComponent, prevEditPointComponent);
@@ -56,7 +57,6 @@ export default class PointPresenter {
   };
 
   destroy = () => {
-    remove(this.#pointComponent);
     remove(this.#editPointComponent);
   };
 
@@ -67,45 +67,34 @@ export default class PointPresenter {
 
   };
 
-  #replaceStandardWithEdit = () => {
-    this.#changeMode();
-    replace(this.#editPointComponent, this.#pointComponent);
-    // eslint-disable-next-line no-use-before-define
-    document.addEventListener('keydown', this.#onEscKeyDown);
-    this.#isInEditMode = true;
-  };
-
 
   #removeEditPoint = () => {
-    remove(this.#pointComponent);
+    remove(this.#editPointComponent);
   };
 
   #onEscKeyDown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
-      this.#editPointComponent.reset(this.#point);
       document.removeEventListener('keydown', this.#onEscKeyDown);
-      remove(this.#pointComponent);
+      remove(this.#editPointComponent);
     }
   };
 
 
   #handleFormSubmit = (point) => {
     this.#changeData(
-      UserAction.UPDATE,
+      UserAction.ADD,
       UpdateType.MAJOR,
       point,
     );
     //this.#replaceEditWithStandard();
+    remove(this.#editPointComponent);
   };
 
   #handleFormReset = (point) => {
-    this.#changeData(
-      UserAction.DELETE,
-      UpdateType.MAJOR,
-      point,
-    );
+    console.log('reset');
     //this.#replaceEditWithStandard();
+    remove(this.#editPointComponent);
   };
 
   reset = (point) => {

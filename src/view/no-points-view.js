@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { NoPointsExplanation, FilterType } from '../const.js';
+import { NoPointsExplanation, FilterType, Reason } from '../const.js';
 
 
 const createNoPointsTemplate = (explanation) => `<p class="trip-events__msg">${explanation} </p>`;
@@ -16,6 +16,8 @@ export default class NoPointsView extends AbstractView {
         return NoPointsExplanation.PRESENT;
       case FilterType.FUTURE :
         return NoPointsExplanation.FUTURE;
+      case Reason.LOADING :
+        return NoPointsExplanation.LOADING;
       default:
         return NoPointsExplanation.DEFAULT;
     }

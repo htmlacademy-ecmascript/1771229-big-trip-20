@@ -6,7 +6,8 @@ import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 
-import PointPresenter from './new-point-presenter.js';
+import PointPresenter from './point-presenter.js';
+import NewPointPresenter from './new-point-presenter.js';
 
 import {SortType, UpdateType, UserAction} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';
@@ -20,8 +21,12 @@ export default class PointListPresenter {
   #filterModel = null;
   #currentSortType = SortType.DEFAULT;
   #pointPresenter = new Map();
+
+  #NewPointPresenter = null;
+
   #sortComponent = null;
-  //#currentFilterType = FilterType.EVERYTHING;
+  #newPointComponent = null;
+  #isButtonDisabled = false;
   constructor({pointsModel, filterModel}){
     //!!
 
@@ -33,7 +38,7 @@ export default class PointListPresenter {
   }
 
   get points() {
-    console.log('getpoints', this.#filterModel.filter);
+    //console.log('getpoints', this.#filterModel.filter);
     switch (this.#currentSortType) {
       case SortType.DAY:
         return [...this.#pointsModel.points].sort(sortByDay);
@@ -59,6 +64,13 @@ export default class PointListPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
+  #renderNewPoint = (point) => {
+    const newPointPresenter = new NewPointPresenter(this.#pointListComponent.element, this.#handleViewAction, this.#handleModeChange);
+
+    //newPointPresenter.init(point);
+    //this.#pointPresenter.set(point.id, pointPresenter);
+  };
+
   #clearPointsList = () => {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
@@ -76,15 +88,20 @@ export default class PointListPresenter {
     render(this.#sortComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
   };
 
+  /*#renderNewPoint = () => {
+    this.#newPointComponent = new NewPoint(this.#isButtonDisabled);
+    this.#sortComponent.setSortChangeHandler(this.#handleSortChange);
+
+    render(this.#newPointComponent, this.#sortComponent, RenderPosition.AFTEREND);
+  };*/
+
   #renderPointList = () => {
   //  console.log(this.#pointListComponent.element, this.#pointListContainer);
     render(this.#pointListComponent, this.#pointListContainer);
   };
   //----------------------------------------------------------------------
 
-  #renderNewPoint = () => {
-    render(new NewPointView(), this.#pointListComponent.element);
-  };
+
 
   #noPointsView = null;
 
@@ -115,6 +132,7 @@ export default class PointListPresenter {
     this.#pointListContainer = pointListContainer;
 
     this.#renderSort();
+    this.#renderNewPoint();
 
     this.#renderPointList();
     this.#renderAllPoints(this.points);
@@ -153,7 +171,10 @@ export default class PointListPresenter {
       case UpdateType.MAJOR:
         console.log('major');
         // - обновить всю доску (например, при переключении фильтра)
-        this.#clearPointsList({resetRenderedTaskCount: true, resetSortType: true});
+        this.#currentSortType = (SortType.DEFAULT);
+        this.#clearPointsList();
+        //сброс фильтра
+
         this.#renderAllPoints(); //points list?_____
         break;
     }
@@ -166,7 +187,7 @@ export default class PointListPresenter {
     }
 
     this.#currentSortType = (sortType);
-    this.#clearPointsList({resetRenderedTaskCount: true});
+    this.#clearPointsList();
     this.#renderAllPoints(this.points);
   };
 

@@ -29,8 +29,12 @@ export const NoPointsExplanation = {
   FUTURE: 'There are no future events now',
   PRESENT: 'There are no present events now',
   PAST: 'There are no past events now',
+  LOADING: 'Loading...'
 };
 
+export const Reason = {
+  LOADING : 'loading',
+};
 /*
 export const UserAction = {
   UPDATE: 'UPDATE',
