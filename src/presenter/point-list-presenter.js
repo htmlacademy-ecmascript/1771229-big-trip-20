@@ -67,7 +67,7 @@ export default class PointListPresenter {
   #renderNewPoint = (point) => {
     const newPointPresenter = new NewPointPresenter(this.#pointListComponent.element, this.#handleViewAction, this.#handleModeChange);
 
-    //newPointPresenter.init(point);
+    newPointPresenter.init(point);
     //this.#pointPresenter.set(point.id, pointPresenter);
   };
 
@@ -102,7 +102,6 @@ export default class PointListPresenter {
   //----------------------------------------------------------------------
 
 
-
   #noPointsView = null;
 
   #renderNoPoints = (reason) => {
@@ -113,6 +112,7 @@ export default class PointListPresenter {
   };
 
   #renderAllPoints = () => {
+    this.#renderNewPoint(this.points[0]);
     if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
@@ -132,7 +132,7 @@ export default class PointListPresenter {
     this.#pointListContainer = pointListContainer;
 
     this.#renderSort();
-    this.#renderNewPoint();
+    //this.#renderNewPoint(this.points[1]);
 
     this.#renderPointList();
     this.#renderAllPoints(this.points);
