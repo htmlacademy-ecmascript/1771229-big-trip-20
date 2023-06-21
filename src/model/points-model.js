@@ -12,9 +12,6 @@ export default class PointsModel extends Observable {
     this.#pointsApiService = pointsApiService;
   }
 
-  get points() {
-    return this.#points;
-  }
 
   async init() {
     try {
@@ -91,6 +88,18 @@ export default class PointsModel extends Observable {
     } catch(err){
       throw new Error('Can\'t delete task');
     }
+  }
+
+  get points() {
+    return this.#points;
+  }
+
+  get offers() {
+    return this.#offersByType;
+  }
+
+  get destinations() {
+    return this.#destinations;
   }
 
 

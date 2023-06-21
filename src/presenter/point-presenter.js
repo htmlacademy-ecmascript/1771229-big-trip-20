@@ -3,9 +3,9 @@ import {render, replace, remove} from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 
-import OffersModel from '../model/offers-model.js';
+import PointsModel from '../model/points-model.js';
 
-import DestinationsModel from '../model/destinations-model.js';
+//import DestinationsModel from '../model/destinations-model.js';
 export default class PointPresenter {
   #pointListComponent = null;
   #pointComponent = null;
@@ -13,14 +13,16 @@ export default class PointPresenter {
   #point = null;
   //#pointListContainer = null;
   #offersList = null;
-  #offersModel = new OffersModel();
+  //#offersModel = new OffersModel();
+  //#destinationsModel = new DestinationsModel();
+  #pointsModel = new PointsModel;
   #changeData = null;
 
   #changeMode = null;
   #isInEditMode = false;
   //#isNew = null;
   #destinationsList = null;
-  #destinationsModel = new DestinationsModel();
+
   constructor(pointListComponent, changeData, changeMode){
     this.#pointListComponent = pointListComponent;
     this.#changeData = changeData;
@@ -32,15 +34,16 @@ export default class PointPresenter {
 
   init = (point) => {
     this.#point = point;
-    this.#offersList = [...this.#offersModel.offers];
-    this.#destinationsList = [...this.#destinationsModel.destinations];
+    this.#offersList = [...this.#pointsModel.offers];
+    this.#destinationsList = [...this.#pointsModel.destinations];
 
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
 
     this.#pointComponent = new PointView(point, this.#offersList, this.#destinationsList);
-    console.log ('pointcomponent in point view', point, this.#offersList, this.#destinationsList)
+    console.log ('pointcomponent in point view', point, this.#offersList, this.#destinationsList);
+
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
     this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);

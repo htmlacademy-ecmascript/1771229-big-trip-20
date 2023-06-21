@@ -4,7 +4,7 @@ import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 
 import PointPresenter from './point-presenter.js';
-import NewPointPresenter from './new-point-presenter.js';
+//import NewPointPresenter from './new-point-presenter.js';
 
 import {SortType, UpdateType, UserAction, Reason} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';
@@ -29,7 +29,7 @@ export default class PointListPresenter {
   #isButtonDisabled = false;
   constructor({pointsModel, filterModel}){
     //!!
-
+    console.log(pointsModel);
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
 
@@ -41,6 +41,7 @@ export default class PointListPresenter {
 
     switch (this.#currentSortType) {
       case SortType.DAY:
+        console.log(this.#pointsModel.points);
         return [...this.#pointsModel.points].sort(sortByDay);
       case SortType.TIME:
         return [...this.#pointsModel.points].sort(sortByTime);
@@ -64,12 +65,6 @@ export default class PointListPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
-  #renderNewPoint = (point) => {
-    const newPointPresenter = new NewPointPresenter(this.#pointListComponent.element, this.#handleViewAction, this.#handleModeChange);
-
-    newPointPresenter.init(point);
-
-  };
 
   #clearPointsList = () => {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());

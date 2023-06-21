@@ -13,11 +13,13 @@ const pointListContainer = document.querySelector('.trip-events');
 const pointsModel = new PointsModel({pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)});
 const filterModel = new FilterModel();
 
+pointsModel.init();
 
 const pointListPresenter = new PointListPresenter({pointsModel, filterModel});
 const filterPresenter = new FilterPresenter({filterContainer, filterModel, pointsModel});
 
+
 pointListPresenter.init(pointListContainer);
 filterPresenter.init(filterContainer);
-pointsModel.init();
+
 
