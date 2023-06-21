@@ -95,7 +95,6 @@ export default class PointView extends AbstractView {
   }
 
   get template() {
-    console.log('create point template', this.point, this.offers, this.destinations);
     return createPointTemplate(this.point, this.offers, this.destinations);
 
   }

@@ -29,7 +29,6 @@ export default class PointListPresenter {
   #isButtonDisabled = false;
   constructor({pointsModel, filterModel}){
     //!!
-    console.log(pointsModel);
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
 
@@ -41,7 +40,7 @@ export default class PointListPresenter {
 
     switch (this.#currentSortType) {
       case SortType.DAY:
-        console.log(this.#pointsModel.points);
+
         return [...this.#pointsModel.points].sort(sortByDay);
       case SortType.TIME:
         return [...this.#pointsModel.points].sort(sortByTime);

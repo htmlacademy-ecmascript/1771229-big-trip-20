@@ -42,7 +42,6 @@ export default class PointPresenter {
 
 
     this.#pointComponent = new PointView(point, this.#offersList, this.#destinationsList);
-    console.log ('pointcomponent in point view', point, this.#offersList, this.#destinationsList);
 
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
     this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
