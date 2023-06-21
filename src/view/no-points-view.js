@@ -8,7 +8,6 @@ const createNoPointsTemplate = (explanation) => `<p class="trip-events__msg">${e
 export default class NoPointsView extends AbstractView {
 
   getExpanationForReason(reason){
-    console.log (FilterType, reason);
     switch (reason){
       case FilterType.PAST :
         return NoPointsExplanation.PAST;
