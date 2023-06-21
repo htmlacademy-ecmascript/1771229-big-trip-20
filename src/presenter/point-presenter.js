@@ -40,6 +40,7 @@ export default class PointPresenter {
 
 
     this.#pointComponent = new PointView(point, this.#offersList, this.#destinationsList);
+    console.log ('pointcomponent in point view', point, this.#offersList, this.#destinationsList)
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
     this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);
@@ -85,7 +86,6 @@ export default class PointPresenter {
   #replaceStandardWithEdit = () => {
     this.#changeMode();
     replace(this.#editPointComponent, this.#pointComponent);
-    // eslint-disable-next-line no-use-before-define
     document.addEventListener('keydown', this.#onEscKeyDown);
     this.#isInEditMode = true;
   };
