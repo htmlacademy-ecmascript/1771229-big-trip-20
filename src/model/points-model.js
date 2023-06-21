@@ -12,8 +12,6 @@ export default class PointsModel extends Observable {
     super();
     this.#pointsApiService = pointsApiService;
 
-    this.#pointsApiService = pointsApiService;
-
     this.#pointsApiService.points.then((points) => {
       console.log(points);
     });
@@ -27,6 +25,7 @@ export default class PointsModel extends Observable {
     try {
       const points = await this.#pointsApiService.points;
       this.#points = points.map();
+      console.log('initmodel', points, this.#points);
     } catch(err) {
       this.#points = [];
     }

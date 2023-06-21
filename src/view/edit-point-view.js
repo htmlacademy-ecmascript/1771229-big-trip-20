@@ -74,7 +74,7 @@ const getOffersOfType = (offersByType, pointType) => {
   }
 };
 //-----------------------------------------------------------------------Main function--------------------------------------------------------------------------------
-const createEditPointTemplate = (pointData, offersByType, destinationsList, isNew, isDisabled) => {
+const createEditPointTemplate = (pointData, offersByType, destinationsList, isNew, isDisabled, isSaving, idDeleting) => {
 
 
   console.log('entry createEditPointTemplate', isNew);
@@ -130,10 +130,10 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
       <input class="event__input  event__input--price" id="event-price-1" required type="number" name="event-price" min="1" value="${basePrice}">
     </div>
 
-    <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
+    <button class="event__save-btn  btn  btn--blue" type="submit">${isSaving ? 'Saving...' : 'Save'}</button>
     <button class="event__reset-btn" type="reset">
 
-    ${isNew ? 'Cancel' : 'Delete'}
+    ${isNew ? 'Cancel' : isDeleting ? 'Deleting' : 'delete'}
 
     </button>
 
@@ -180,13 +180,13 @@ export default class EditPointView extends AbstractStatefulView {
   #offers = null; //offer, destination
   #destinations = null;
   #isNew = null;
-
-  constructor(point = NEW_POINT, offers, destinations, isNew = false){
+  #isDisabled = null;
+  constructor(point = NEW_POINT, offers, destinations, isNew = false, isDisabled){
     super();
     this._state = EditPointView.parsePointToState(point);
     this.#offers = offers;
     this.#destinations = destinations;
-
+    this.#isDisabled = isDisabled;
     this.#isNew = isNew;
 
     this.#setInnerHandlers();
@@ -195,7 +195,7 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew);
+    return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew, this.#isDisabled);
   }
   //removeElement 270
 
@@ -225,7 +225,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this._callback.formSubmit(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations));
+    this._callback.formSubmit(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations, isSaving, isDeleting));
     this.element.querySelector('.event__input--price')
       .addEventListener('input', this.#priceInputHandler);
   };
@@ -296,7 +296,10 @@ export default class EditPointView extends AbstractStatefulView {
       .addEventListener('input', this.#priceInputHandler);
   };
 
-  static parsePointToState = (point) => ({...point
+  static parsePointToState = (point) => ({...point,
+    isDisabled: false,
+    isSaving: false,
+    isDeleting: false,
   });
 
   static parseStateToPoint = (state) => {
