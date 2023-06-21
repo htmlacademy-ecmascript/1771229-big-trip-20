@@ -23,11 +23,12 @@ export default class PointListPresenter {
   #pointPresenter = new Map();
 
   #NewPointPresenter = null;
+  #pointsApiService = null;
 
   #sortComponent = null;
   #newPointComponent = null;
   #isButtonDisabled = false;
-  constructor({pointsModel, filterModel}){
+  constructor({pointsModel, filterModel, pointsApiService}){
     //!!
 
     this.#pointsModel = pointsModel;
@@ -35,6 +36,12 @@ export default class PointListPresenter {
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
+
+    this.#pointsApiService = pointsApiService;
+
+    this.#pointsApiService.points.then((points) => {
+      console.log(points);
+    });
   }
 
   get points() {
