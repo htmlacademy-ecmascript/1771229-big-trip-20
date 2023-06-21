@@ -51,7 +51,6 @@ const createOffersOfPointList = (offersOfType, offersOfPoint, type) => {
     return '';
   }
   let offersOfPointList = '';
-  //console.log(offersOfType);
   for (const offerOfType of offersOfType) {
     let isChecked = false;
     for (const offerOfPoint of offersOfPoint) {
@@ -62,7 +61,6 @@ const createOffersOfPointList = (offersOfType, offersOfPoint, type) => {
     }
     offersOfPointList = `${offersOfPointList}${createOfferListItem(offerOfType, type, isChecked)}`;
   }
-  //console.log(offersOfPointList);
   return offersOfPointList;
 };
 
@@ -78,12 +76,12 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 
 
   const {basePrice, date_from: dateFrom, date_to: dateTo, destination, offers, type, isSaving, isDeleting } = pointData;
-  // console.log('basePrice', basePrice);
+
   const offersOfType = getOffersOfType(offersByType, type);
-  //console.log (offersOfType, offers, type);
+
   const offersOfPointList = createOffersOfPointList(offersOfType, offers, type);
 
-  //console.log(destination);
+
   return (`<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post" ${(isDisabled ? 'disabled' : '')}>
   <header class="event__header">
@@ -133,7 +131,7 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
     <button class="event__save-btn  btn  btn--blue" type="submit">${isSaving ? 'Saving...' : 'Save'}</button>
     <button class="event__reset-btn" type="reset">
 
-    ${isNew ? 'Cancel' : isDeleting ? 'Deleting' : 'delete'}
+    ${isNew ? 'Cancel' : '' }${!isNew && isDeleting ? 'Deleting' : ''}${!isNew && !isDeleting ? 'Delete' : ''}
 
     </button>
 
@@ -177,7 +175,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #datepickerFrom = null;
   #datepickerTo = null;
-  #offers = null; //offer, destination
+  #offers = null;
   #destinations = null;
   #isNew = null;
   #isDisabled = null;
@@ -197,7 +195,6 @@ export default class EditPointView extends AbstractStatefulView {
   get template() {
     return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew, this.#isDisabled);
   }
-  //removeElement 270
 
   setFormSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
@@ -234,15 +231,8 @@ export default class EditPointView extends AbstractStatefulView {
     evt.preventDefault();
 
     this._callback.formReset(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations));
-    //this.element.querySelector('.event__input--price').addEventListener('reset', this.#priceInputHandler);
-  };
 
-
-  /*#formResetHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.formSubmit();
   };
-*/
 
   setRollupButtonClickHandler = (callback) =>{
     if (this.#isNew){
@@ -270,7 +260,6 @@ export default class EditPointView extends AbstractStatefulView {
     } else {
       newState.push(Number(evt.target.id));
     }
-    //newState.sort();
 
     this._setState({
       point: {offers: newState},
@@ -324,25 +313,22 @@ export default class EditPointView extends AbstractStatefulView {
   };
 
   #dateFromChangeHandler = ([date]) => {
-    // const dateClass = new Date(date);
-    // console.log('date', date)
+
     this.updateElement({
-      // eslint-disable-next-line camelcase
       dateFrom: date.toISOString(),
     });
   };
 
   #dateToChangeHandler = ([date]) => {
-    // const dateClass = new Date(date);
-    // console.log('date', date)
+
     this.updateElement({
-      // eslint-disable-next-line camelcase
+
       dateTo: date.toISOString(),
     });
   };
 
   #setDatepickerFrom = () => {
-    // if (this._state.date_from) {
+
     this.#datepickerFrom = flatpickr(
       this.element.querySelector('#event-start-time-1'),
       {
@@ -353,11 +339,11 @@ export default class EditPointView extends AbstractStatefulView {
         onChange: this.#dateFromChangeHandler,
       },
     );
-    // }
+
   };
 
   #setDatepickerTo = () => {
-    // if (this._state.date_to) {
+
     this.#datepickerTo = flatpickr(
       this.element.querySelector('#event-end-time-1'),
       {
@@ -375,7 +361,7 @@ export default class EditPointView extends AbstractStatefulView {
   #priceInputHandler = (evt) => {
     evt.preventDefault();
     this._setState({
-      // eslint-disable-next-line camelcase
+
       basePrice: evt.target.value,
     });
   };

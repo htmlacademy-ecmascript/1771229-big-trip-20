@@ -36,21 +36,3 @@ export const NoPointsExplanation = {
 export const Reason = {
   LOADING : 'loading',
 };
-/*
-export const UserAction = {
-  UPDATE: 'UPDATE',
-  ADD: 'ADD',
-  DELETE: 'DELETE',
-};
-
-export const UpdateType = {
-  PATCH: 'PATCH',
-  MINOR: 'MINOR',
-  MAJOR: 'MAJOR',
-};
-
-export const FilterType = {
-  EVERYTHING: 'everything',
-  FUTURE: 'future',
-  PAST: 'past',
-};*/

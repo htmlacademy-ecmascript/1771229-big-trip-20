@@ -7,10 +7,10 @@ import OffersModel from '../model/offers-model.js';
 import DestinationsModel from '../model/destinations-model.js';
 export default class NewPointPresenter {
   #pointListComponent = null;
-  //#pointComponent = null;
+
   #editPointComponent = null;
   #point = null;
-  //#pointListContainer = null;
+
   #offersList = null;
   #offersModel = new OffersModel();
   #changeData = null;
@@ -33,25 +33,16 @@ export default class NewPointPresenter {
     this.#offersList = [...this.#offersModel.offers];
     this.#destinationsList = [...this.#destinationsModel.destinations];
 
-    //const prevEditPointComponent = this.#editPointComponent;
-
-
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList, true);
 
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
 
     this.#editPointComponent.setFormResetHandler(this.#handleFormReset);
 
-
-    //переиспользование
-    /*if (prevEditPointComponent === null) {
-      render(this.#editPointComponent, this.#pointListComponent);
-      return;
-    }*/
-
     render(this.#editPointComponent,this.#pointListComponent);
 
     if (this.#isInEditMode) {
+      // eslint-disable-next-line no-undef
       replace(this.#editPointComponent, prevEditPointComponent);
     }
   };
@@ -66,7 +57,6 @@ export default class NewPointPresenter {
     }
 
   };
-
 
   #removeEditPoint = () => {
     remove(this.#editPointComponent);
@@ -87,13 +77,10 @@ export default class NewPointPresenter {
       UpdateType.MAJOR,
       point,
     );
-    //this.#replaceEditWithStandard();
     remove(this.#editPointComponent);
   };
 
-  #handleFormReset = (point) => {
-    console.log('reset');
-    //this.#replaceEditWithStandard();
+  #handleFormReset = () => {
     remove(this.#editPointComponent);
   };
 

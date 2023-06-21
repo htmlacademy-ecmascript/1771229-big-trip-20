@@ -1,7 +1,4 @@
 import Observable from '../framework/observable.js';
-import {
-  generatePoints
-} from '../mock/generate-point.js';
 import { UpdateType } from '../const.js';
 
 export default class PointsModel extends Observable {
@@ -13,10 +10,6 @@ export default class PointsModel extends Observable {
   constructor({pointsApiService}) {
     super();
     this.#pointsApiService = pointsApiService;
-
-    // this.#pointsApiService.points.then((points) => {
-    //   console.log(points);
-    // });
   }
 
   get points() {
@@ -26,11 +19,11 @@ export default class PointsModel extends Observable {
   async init() {
     try {
       this.#points = await this.#pointsApiService.points;
-      this.#offersByType = await this.#pointsApiService.destinations;
-      this.#destinations = await this.#pointsApiService.offers;
-      console.log('initmodel points', this.#points);
+      this.#offersByType = await this.#pointsApiService.offers;
+      this.#destinations = await this.#pointsApiService.destinations;
     } catch(err) {
       this.#points = [];
+      throw new Error('Failed initialization');
     }
 
     this._notify(UpdateType.INIT);

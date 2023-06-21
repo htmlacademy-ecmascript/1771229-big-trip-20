@@ -36,7 +36,6 @@ const createOffersOfPointList = (offersOfType, offersOfPoint) => {
 
 const createPointTemplate = (point, offersByType, destinations) => {
   const {basePrice, dateFrom, dateTo, destination, isFavorite, offers, type} = point;
-  console.log('offers', offers);
   const favoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
   const timeFrom = getTimeFromIso(dateFrom);
   const timeTo = getTimeFromIso(dateTo);
