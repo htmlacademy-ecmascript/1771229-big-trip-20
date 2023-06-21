@@ -164,16 +164,12 @@ export default class PointListPresenter {
       case UserAction.DELETE:
         this.#pointsModel.deletePoint(updateType, update);
         break;
-      case UpdateType.INIT:
-        this.#isLoading = false;
-        remove(this.#loadingComponent);
-        this.#renderAllPoints();
-        break;
 
     }
   };
 
   #handleModelEvent = (updateType, data) => {
+    console.log('updateType', updateType);
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
@@ -194,6 +190,11 @@ export default class PointListPresenter {
         //сброс фильтра
 
         this.#renderAllPoints(); //points list?_____
+        break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderAllPoints();
         break;
     }
   };

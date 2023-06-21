@@ -34,14 +34,16 @@ const createOffersOfPointList = (offersOfType, offersOfPoint) => {
 };
 
 
-const createPointTemplate = (point, offersByType) => {
-  const {base_price: basePrice, date_from: dateFrom, date_to: dateTo, destination, is_favorite:isFavorite, offers, type} = point;
+const createPointTemplate = (point, offersByType, destinations) => {
+  const {basePrice, dateFrom, dateTo, destination, isFavorite, offers, type} = point;
+  console.log('offers', offers);
   const favoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
   const timeFrom = getTimeFromIso(dateFrom);
   const timeTo = getTimeFromIso(dateTo);
   const offersOfType = getOffersOfType(offersByType, type);
   const offersList = createOffersOfPointList(offersOfType, offers);
   const duration = getDurationFromIso(dateFrom, dateTo);
+  // const currentDestination = destinations.find((dest) => dest.id === point.destination);
 
   return(`
 <li class="trip-events__item">

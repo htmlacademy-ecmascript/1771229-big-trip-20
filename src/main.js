@@ -22,8 +22,9 @@ const filterPresenter = new FilterPresenter({filterContainer, filterModel, point
 
 pointListPresenter.init(pointListContainer);
 filterPresenter.init(filterContainer);
-pointsModel.init()
-  .finally(() => {
-    //render(newTaskButtonComponent, siteHeaderElement);
-  });
+pointsModel.init();
+// .finally(() => {
+//   console.log('finally')
+//   //render(newTaskButtonComponent, siteHeaderElement);
+// });
 
