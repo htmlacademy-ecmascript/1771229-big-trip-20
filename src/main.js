@@ -4,6 +4,8 @@ import PointListPresenter from './presenter/point-list-presenter.js';
 import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
 import PointsApiService from './api-service.js';
+import { render } from './render.js';
+
 
 const AUTHORIZATION = 'Basic uniqueandORIGINALAUTHKEY';
 const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
@@ -20,4 +22,8 @@ const filterPresenter = new FilterPresenter({filterContainer, filterModel, point
 
 pointListPresenter.init(pointListContainer);
 filterPresenter.init(filterContainer);
+pointsModel.init()
+  .finally(() => {
+    //render(newTaskButtonComponent, siteHeaderElement);
+  });
 
