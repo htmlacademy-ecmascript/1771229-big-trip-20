@@ -3,20 +3,20 @@ import { nanoid } from 'nanoid';
 const currentDate = new Date().toISOString();
 const points =
  [{
-  'base_price': '',
-  'date_from': currentDate,
-  'date_to': currentDate,
-  'destination':
+   'base_price': '',
+   'date_from': currentDate,
+   'date_to': currentDate,
+   'destination':
      {
        'description': '',
        'name': '',
        'pictures': []
      },
-  'id': nanoid(),
-  'is_favorite': false,
-  'offers': [],
-  'type': 'train'
-},
+   'id': nanoid(),
+   'is_favorite': false,
+   'offers': [],
+   'type': 'train'
+ },
  {
    'base_price': 2000,
    'date_from': '2019-07-12T03:55:56.845Z',

@@ -9,7 +9,7 @@ import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 
-import {SortType, UpdateType, UserAction} from '../const.js';
+import {SortType, UpdateType, UserAction, Reason} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';
 
 export default class PointListPresenter {
@@ -23,12 +23,14 @@ export default class PointListPresenter {
   #pointPresenter = new Map();
 
   #NewPointPresenter = null;
-  #pointsApiService = null;
+
+  #loadingComponent = new NoPointsView(Reason.LOADING);
+  #isLoading = true;
 
   #sortComponent = null;
-  #newPointComponent = null;
+  //#newPointComponent = null;
   #isButtonDisabled = false;
-  constructor({pointsModel, filterModel, pointsApiService}){
+  constructor({pointsModel, filterModel}){
     //!!
 
     this.#pointsModel = pointsModel;
@@ -36,12 +38,6 @@ export default class PointListPresenter {
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
-
-    this.#pointsApiService = pointsApiService;
-
-    this.#pointsApiService.points.then((points) => {
-      console.log(points);
-    });
   }
 
   get points() {
@@ -114,12 +110,17 @@ export default class PointListPresenter {
   #renderNoPoints = (reason) => {
     console.log('reason', reason);
     this.#noPointsView = new NoPointsView(reason);
+    remove(this.#loadingComponent);
     render(this.#noPointsView, this.#pointListComponent.element);
     //this.#noPointsView.destroy;
   };
 
   #renderAllPoints = () => {
-    this.#renderNewPoint(this.points[0]);
+    //this.#renderNewPoint(this.points[0]);
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
     if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
@@ -134,6 +135,10 @@ export default class PointListPresenter {
       //console.log('filtertype', FilterType);
     });
   };
+
+  #renderLoading() {
+    render(this.#loadingComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
+  }
 
   init = (pointListContainer) => {
     this.#pointListContainer = pointListContainer;
@@ -159,6 +164,12 @@ export default class PointListPresenter {
       case UserAction.DELETE:
         this.#pointsModel.deletePoint(updateType, update);
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderAllPoints();
+        break;
+
     }
   };
 

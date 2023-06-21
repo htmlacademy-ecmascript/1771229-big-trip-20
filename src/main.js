@@ -11,10 +11,11 @@ const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
 const filterContainer = document.querySelector('.trip-controls__filters');
 const pointListContainer = document.querySelector('.trip-events');
 
-const pointsModel = new PointsModel();
+const pointsModel = new PointsModel({pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)});
 const filterModel = new FilterModel();
 
-const pointListPresenter = new PointListPresenter({pointsModel, filterModel, pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)});
+
+const pointListPresenter = new PointListPresenter({pointsModel, filterModel});
 const filterPresenter = new FilterPresenter({filterContainer, filterModel, pointsModel});
 
 pointListPresenter.init(pointListContainer);
