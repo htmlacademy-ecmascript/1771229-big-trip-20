@@ -5,7 +5,7 @@ import EditPointView from '../view/edit-point-view.js';
 import OffersModel from '../model/offers-model.js';
 
 import DestinationsModel from '../model/destinations-model.js';
-export default class PointPresenter {
+export default class NewPointPresenter {
   #pointListComponent = null;
   //#pointComponent = null;
   #editPointComponent = null;
