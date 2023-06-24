@@ -13,7 +13,7 @@ export default class PointPresenter {
 
   #offersList = null;
 
-  #pointsModel = new PointsModel;
+  // #pointsModel = new PointsModel;
   #changeData = null;
 
   #changeMode = null;
@@ -29,10 +29,13 @@ export default class PointPresenter {
 
   }
 
-  init = (point) => {
+  init = (point, offers, destinations) => {
     this.#point = point;
-    this.#offersList = [...this.#pointsModel.offers];
-    this.#destinationsList = [...this.#pointsModel.destinations];
+
+    // this.#offersList = [...this.#pointsModel.offers];
+    // this.#destinationsList = [...this.#pointsModel.destinations];
+    this.#offersList = [...offers];
+    this.#destinationsList = [...destinations];
 
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
@@ -48,6 +51,7 @@ export default class PointPresenter {
     this.#editPointComponent.setFormResetHandler(this.#handleFormReset);
 
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
       render(this.#pointComponent, this.#pointListComponent);
