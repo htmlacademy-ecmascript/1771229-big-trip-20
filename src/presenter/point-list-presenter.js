@@ -19,19 +19,17 @@ export default class PointListPresenter {
   #currentSortType = SortType.DEFAULT;
   #pointPresenter = new Map();
 
-  #NewPointPresenter = null;
 
   #loadingComponent = new NoPointsView(Reason.LOADING);
   #isLoading = true;
 
   #sortComponent = null;
 
-  #isButtonDisabled = false;
   constructor({pointsModel, filterModel}){
     //!!
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
-
+    console.log(this.#pointsModel);
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
   }
@@ -40,7 +38,7 @@ export default class PointListPresenter {
 
     switch (this.#currentSortType) {
       case SortType.DAY:
-
+      console.log(this.#pointsModel)
         return [...this.#pointsModel.points].sort(sortByDay);
       case SortType.TIME:
         return [...this.#pointsModel.points].sort(sortByTime);
@@ -103,6 +101,7 @@ export default class PointListPresenter {
       this.#renderLoading();
       return;
     }
+    console.log(this.points)
     if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
