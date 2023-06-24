@@ -101,7 +101,6 @@ export default class PointListPresenter {
       this.#renderLoading();
       return;
     }
-    console.log(this.points)
     if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
