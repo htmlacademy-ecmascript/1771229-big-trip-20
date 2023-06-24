@@ -49,8 +49,6 @@ export default class PointPresenter {
 
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
-
-
     if (prevPointComponent === null || prevEditPointComponent === null) {
       render(this.#pointComponent, this.#pointListComponent);
       return;
