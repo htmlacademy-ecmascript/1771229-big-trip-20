@@ -29,7 +29,7 @@ export default class PointListPresenter {
     //!!
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
-
+    // console.log(this.#pointsModel);
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
   }
@@ -38,6 +38,7 @@ export default class PointListPresenter {
 
     switch (this.#currentSortType) {
       case SortType.DAY:
+      // console.log(this.#pointsModel)
         return [...this.#pointsModel.points].sort(sortByDay);
       case SortType.TIME:
         return [...this.#pointsModel.points].sort(sortByTime);
@@ -57,7 +58,7 @@ export default class PointListPresenter {
 
     const pointPresenter = new PointPresenter(this.#pointListComponent.element, this.#handleViewAction, this.#handleModeChange);
 
-    pointPresenter.init(point);
+    pointPresenter.init(point, this.#pointsModel.offers, this.#pointsModel.destinations);
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
@@ -100,7 +101,7 @@ export default class PointListPresenter {
       this.#renderLoading();
       return;
     }
-
+    console.log(this.points)
     if (this.points.length === 0) {
       this.#renderNoPoints();
       return;
