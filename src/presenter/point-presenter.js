@@ -3,8 +3,6 @@ import {render, replace, remove} from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 
-import PointsModel from '../model/points-model.js';
-
 export default class PointPresenter {
   #pointListComponent = null;
   #pointComponent = null;
