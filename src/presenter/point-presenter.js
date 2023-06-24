@@ -3,8 +3,6 @@ import {render, replace, remove} from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 
-import PointsModel from '../model/points-model.js';
-
 export default class PointPresenter {
   #pointListComponent = null;
   #pointComponent = null;
@@ -13,7 +11,7 @@ export default class PointPresenter {
 
   #offersList = null;
 
-  #pointsModel = new PointsModel;
+  // #pointsModel = new PointsModel;
   #changeData = null;
 
   #changeMode = null;
@@ -29,10 +27,13 @@ export default class PointPresenter {
 
   }
 
-  init = (point) => {
+  init = (point, offers, destinations) => {
     this.#point = point;
-    this.#offersList = [...this.#pointsModel.offers];
-    this.#destinationsList = [...this.#pointsModel.destinations];
+
+    // this.#offersList = [...this.#pointsModel.offers];
+    // this.#destinationsList = [...this.#pointsModel.destinations];
+    this.#offersList = [...offers];
+    this.#destinationsList = [...destinations];
 
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
@@ -48,7 +49,6 @@ export default class PointPresenter {
     this.#editPointComponent.setFormResetHandler(this.#handleFormReset);
 
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-
 
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
