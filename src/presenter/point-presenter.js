@@ -5,30 +5,27 @@ import EditPointView from '../view/edit-point-view.js';
 
 import PointsModel from '../model/points-model.js';
 
-//import DestinationsModel from '../model/destinations-model.js';
 export default class PointPresenter {
   #pointListComponent = null;
   #pointComponent = null;
   #editPointComponent = null;
   #point = null;
-  //#pointListContainer = null;
+
   #offersList = null;
-  //#offersModel = new OffersModel();
-  //#destinationsModel = new DestinationsModel();
+
   #pointsModel = new PointsModel;
   #changeData = null;
 
   #changeMode = null;
   #isInEditMode = false;
-  //#isNew = null;
+
   #destinationsList = null;
 
   constructor(pointListComponent, changeData, changeMode){
     this.#pointListComponent = pointListComponent;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
-    //this.#isNew = isNew;
-    //console.log('point presenter', pointListComponent, changeData, changeMode);
+
 
   }
 
@@ -53,7 +50,7 @@ export default class PointPresenter {
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
 
-    //переиспользование
+
     if (prevPointComponent === null || prevEditPointComponent === null) {
       render(this.#pointComponent, this.#pointListComponent);
       return;
@@ -66,10 +63,7 @@ export default class PointPresenter {
       replace(this.#editPointComponent, prevEditPointComponent);
     }
 
-    //remove(prevPointComponent);
-    //remove(prevEditPointComponent);
 
-    //render(this.#pointComponent, this.#pointListComponent);
   };
 
   destroy = () => {

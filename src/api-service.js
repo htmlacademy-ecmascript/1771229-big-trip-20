@@ -14,16 +14,6 @@ export default class PointsApiService extends ApiService {
       .then((points) => points.map(this.#adaptToClient));
   }
 
-  get destinations() {
-    return this._load({url: 'destinations'}).
-      then(ApiService.parseResponse);
-  }
-
-  get offers() {
-    return this._load({url: 'offers'}).
-      then(ApiService.parseResponse);
-  }
-
   async updatePoint(point) {
     const response = await this._load({
       url: `points/${point.id}`,
@@ -37,11 +27,11 @@ export default class PointsApiService extends ApiService {
     return parsedResponse;
   }
 
-  async addPoint() {
+  async addPoint(point) {
     const response = await this._load({
       url: 'points',
       method: Method.POST,
-      body: JSON.stringify(this.point),
+      body: JSON.stringify(point),
       headers: new Headers({ 'Content-Type': 'application/json' }),
     });
     const parsedResponse = await ApiService.parseResponse(response);
@@ -56,6 +46,16 @@ export default class PointsApiService extends ApiService {
     });
 
     return response;
+  }
+
+  get destinations() {
+    return this._load({url: 'destinations'}).
+      then(ApiService.parseResponse);
+  }
+
+  get offers() {
+    return this._load({url: 'offers'}).
+      then(ApiService.parseResponse);
   }
 
   #adaptToServer(point) {
