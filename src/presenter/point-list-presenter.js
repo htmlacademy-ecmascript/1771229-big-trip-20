@@ -35,17 +35,21 @@ export default class PointListPresenter {
   }
 
   get points() {
-
+    let sortedPoints = [];
+    //console.log('sort on')
     switch (this.#currentSortType) {
       case SortType.DAY:
-      // console.log(this.#pointsModel)
-        return [...this.#pointsModel.points].sort(sortByDay);
+        sortedPoints = [...this.#pointsModel.points].sort(sortByDay);
+        break;
       case SortType.TIME:
-        return [...this.#pointsModel.points].sort(sortByTime);
+        sortedPoints = [...this.#pointsModel.points].sort(sortByTime);
+        break;
       case SortType.PRICE:
-        return [...this.#pointsModel.points].sort(sortByPrice);
+        sortedPoints = [...this.#pointsModel.points].sort(sortByPrice);
+        break;
     }
-    return this.#pointsModel.points;
+    console.log(this.#currentSortType, sortedPoints);
+    return sortedPoints;
   }
 
 

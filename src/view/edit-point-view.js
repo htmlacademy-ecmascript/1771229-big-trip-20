@@ -204,7 +204,7 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    console.log(this._state, this.#isNew, this.#isDisabled);
+    //console.log(this._state, this.#isNew, this.#isDisabled);
     return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew, this.#isDisabled);
   }
 

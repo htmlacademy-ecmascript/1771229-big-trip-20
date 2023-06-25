@@ -55,24 +55,24 @@ const getWeightForNull = (a, b) => {
 
 
 export const sortByDay = (a, b) => {
-  a = a.date_from;
-  b = b.date_from;
+  a = a.dateFrom;
+  b = b.dateFrom;
   const weight = getWeightForNull(a, b);
 
   return weight ?? getDuration(a, b);
 };
 
 export const sortByTime = (a, b) => {
-  a = getDuration(a.date_from, a.date_to);
-  b = getDuration(b.date_from, b.date_to);
+  a = getDuration(a.dateFrom, a.dateTo);
+  b = getDuration(b.dateFrom, b.dateTo);
   const weight = getWeightForNull(a, b);
 
   return weight ?? (b - a);
 };
 
 export const sortByPrice = (a, b) => {
-  a = a.base_price;
-  b = b.base_price;
+  a = a.basePrice;
+  b = b.basePrice;
   const weight = getWeightForNull(a, b);
 
   return weight ?? (b - a);
@@ -106,7 +106,7 @@ export const filterPoints = (filterType, points) =>{
   const filteredPointsList = [];
   points.forEach((point) => {
     //console.log('\npoint',point, filterType, point.date_from, point.date_to, currentDate);
-    if (filterByDate(filterType, point.date_from, point.date_to, currentDate)){
+    if (filterByDate(filterType, point.dateFrom, point.dateTo, currentDate)){
       filteredPointsList.push(point);
     }
   });
