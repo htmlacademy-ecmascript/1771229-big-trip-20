@@ -59,7 +59,7 @@ export default class PointsApiService extends ApiService {
   }
 
   #adaptToServer(point) {
-    console.log('point before adapt', point);
+    //console.log('point before adapt', point);
     const adaptedPoint = {
       ...point,
       'base_price': Number(point.basePrice),
@@ -73,7 +73,7 @@ export default class PointsApiService extends ApiService {
     delete adaptedPoint.dateTo;
     delete adaptedPoint.isFavorite;
     delete adaptedPoint.point;
-    console.log('point after adapt', adaptedPoint);
+    //console.log('point after adapt', adaptedPoint);
     return adaptedPoint;
   }
 

@@ -33,18 +33,19 @@ export default class PointsModel extends Observable {
       throw new Error('Can\'t update inexisting point');
     }
 
-
+    console.log('updatePoint', updateType, update);
     try {
       const response = await this.#pointsApiService.updatePoint(update);
+      console.log('response', response)
       const updatedPoint = response;
       this.#points = [
         ...this.#points.slice(0, index),
         updatedPoint,
         ...this.#points.slice(index + 1),
       ];
+      console.log()
       this._notify(updateType, updatedPoint);
     } catch(err) {
-      console.log(this.point);
       throw new Error('Can\'t update point');
 
     }
@@ -86,9 +87,10 @@ export default class PointsModel extends Observable {
         ...this.#points.slice(index + 1),
       ];
 
-      this._notify(updateType);
+      this._notify(updateType, update);
     } catch(err){
-      throw new Error('Can\'t delete task');
+      //console.log(updateType, update);
+      throw new Error('Can\'t delete point');
     }
   }
 

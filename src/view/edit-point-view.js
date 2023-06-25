@@ -69,7 +69,7 @@ const getOffersOfType = (offersByType, pointType) => {
 const getDestinationById = (destinationsList, id) => {
   for (const destination of destinationsList){
     if (id === destination.id){
-      console.log(destination);
+      //console.log(destination);
       return destination;
     }
   }
@@ -86,10 +86,10 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 
   const offersOfPointList = createOffersOfPointList(offersOfType, offers, type);
 
-  console.log('destination', destinationIdData);
+  //console.log('destination', destinationIdData);
 
   const destinationObj = getDestinationById(destinationsList, destinationIdData);
-  console.log('desObj', destinationObj);
+  //console.log('desObj', destinationObj);
 
   return (`<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post" ${(isDisabled ? 'disabled' : '')}>
@@ -191,9 +191,10 @@ export default class EditPointView extends AbstractStatefulView {
   constructor(point = NEW_POINT, offers, destinations, isNew = false, isDisabled){
     super();
     this._state = EditPointView.parsePointToState(point);
+    //console.log(this._state);
     this.#offers = offers;
     this.#destinations = destinations;
-    console.log(this.#destinations);
+    //console.log(this.#destinations);
     this.#isDisabled = isDisabled;
     this.#isNew = isNew;
 
@@ -203,6 +204,7 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
+    console.log(this._state, this.#isNew, this.#isDisabled);
     return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew, this.#isDisabled);
   }
 
@@ -232,6 +234,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
+    console.log('state', this._state, 'offers', this.#offers, 'destinations', this.#destinations);
     this._callback.formSubmit(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations));
     this.element.querySelector('.event__input--price')
       .addEventListener('input', this.#priceInputHandler);
@@ -279,7 +282,7 @@ export default class EditPointView extends AbstractStatefulView {
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
     const newDestinationName = evt.target.value;
-    console.log('ndn', evt.target.value);
+    //console.log('ndn', evt.target.value);
     this.updateElement({
       destination: newDestinationName
     });

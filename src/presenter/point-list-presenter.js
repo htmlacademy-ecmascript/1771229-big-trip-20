@@ -115,7 +115,7 @@ export default class PointListPresenter {
   };
 
   #renderLoading() {
-    render(this.#loadingComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
+    render(this.#loadingComponent, this.#pointListComponent.element, RenderPosition.BEFOREEND);
   }
 
   init = (pointListContainer) => {
@@ -132,6 +132,7 @@ export default class PointListPresenter {
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE:
+        console.log(updateType, update);
         this.#pointsModel.updatePoint(updateType, update);
         break;
       case UserAction.ADD:
