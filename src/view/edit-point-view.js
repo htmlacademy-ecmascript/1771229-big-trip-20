@@ -18,13 +18,13 @@ const createOfferListItem = (offer, type, isChecked) => {
         </div>
      `;
 };
-const destinationOptions = (destinationsList, destinationOfPoint) => {
+const destinationOptions = (destinationsList, destinationObjOfPoint) => {
   if (!destinationsList) {
     return '';
   }
   let optionsList = '';
   for (const destination of destinationsList){
-    optionsList = `${optionsList}<option value="${destination.name}" ${destinationOfPoint === destination.name ? 'selected' : ''}>${destination.name}</option>}`;
+    optionsList = `${optionsList}<option value="${destination.id}" ${destinationObjOfPoint.id === destination.id ? 'selected' : ''}>${destination.name}</option>}`;
   }
   return optionsList;
 };
@@ -69,6 +69,7 @@ const getOffersOfType = (offersByType, pointType) => {
 const getDestinationById = (destinationsList, id) => {
   for (const destination of destinationsList){
     if (id === destination.id){
+      console.log(destination);
       return destination;
     }
   }
@@ -116,7 +117,7 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
         ${type}
       </label>
       <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destinationObj}">
-        ${destinationOptions(destinationsList, destinationObj.name)}
+        ${destinationOptions(destinationsList, destinationObj)}
         </select>
     </div>
 
@@ -278,7 +279,7 @@ export default class EditPointView extends AbstractStatefulView {
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
     const newDestinationName = evt.target.value;
-    console.log('ndn', newDestinationName);
+    console.log('ndn', evt.target.value);
     this.updateElement({
       destination: newDestinationName
     });
