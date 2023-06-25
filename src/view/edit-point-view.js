@@ -80,7 +80,7 @@ const getDestinationById = (destinationsList, id) => {
 const createEditPointTemplate = (pointData, offersByType, destinationsList, isNew, isDisabled) => {
 
 
-  const {basePrice, date_from: dateFrom, date_to: dateTo, destination: destinationIdData, offers, type, isSaving, isDeleting } = pointData;
+  const {basePrice, dateFrom, dateTo, destination: destinationIdData, offers, type, isSaving, isDeleting } = pointData;
 
   const offersOfType = getOffersOfType(offersByType, type);
 
@@ -299,11 +299,17 @@ export default class EditPointView extends AbstractStatefulView {
       .addEventListener('input', this.#priceInputHandler);
   };
 
-  static parsePointToState = (point) => ({...point,
-    isDisabled: false,
-    isSaving: false,
-    isDeleting: false,
-  });
+  static parsePointToState = (point) => {
+
+    console.log('point in parse', point);
+    const pointInState = ({...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
+    });
+    console.log(pointInState);
+    return (pointInState);
+  };
 
   static parseStateToPoint = (state) => {
     const editForm = {...state};

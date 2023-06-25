@@ -36,14 +36,14 @@ export default class PointsModel extends Observable {
     console.log('updatePoint', updateType, update);
     try {
       const response = await this.#pointsApiService.updatePoint(update);
-      console.log('response', response)
+      console.log('response', response);
       const updatedPoint = response;
       this.#points = [
         ...this.#points.slice(0, index),
         updatedPoint,
         ...this.#points.slice(index + 1),
       ];
-      console.log()
+      console.log();
       this._notify(updateType, updatedPoint);
     } catch(err) {
       throw new Error('Can\'t update point');
