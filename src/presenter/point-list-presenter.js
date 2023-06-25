@@ -48,7 +48,7 @@ export default class PointListPresenter {
         sortedPoints = [...this.#pointsModel.points].sort(sortByPrice);
         break;
     }
-    console.log(this.#currentSortType, sortedPoints);
+    //console.log(this.#currentSortType, sortedPoints);
     return sortedPoints;
   }
 

@@ -74,14 +74,14 @@ export default class PointsModel extends Observable {
 
   async deletePoint(updateType, update) {
     const index = this.#points.findIndex((point) => point.id === update.id);
-
+    console.log('in delete point', updateType, update, index);
     if (index === -1) {
       throw new Error('Can\'t delete inexisting point');
     }
 
     try {
 
-      await this.#pointsApiService.deleteTask(update);
+      await this.#pointsApiService.deletePoint(update);
       this.#points = [
         ...this.#points.slice(0, index),
         ...this.#points.slice(index + 1),
