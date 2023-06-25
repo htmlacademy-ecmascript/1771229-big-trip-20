@@ -3,14 +3,8 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { getTimeFromIso, getEditableDateFromIso } from '../dayjs-custom.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-const getDestinationByName = (destinationsList, name) => {
-  for (const destination of destinationsList){
-    if (name === destination.name){
-      return destination;
-    }
-  }
-  return null;
-};
+
+
 const createOfferListItem = (offer, type, isChecked) => {
   const {id, title, price} = offer;
   return `
@@ -71,16 +65,30 @@ const getOffersOfType = (offersByType, pointType) => {
     }
   }
 };
+
+const getDestinationById = (destinationsList, id) => {
+  for (const destination of destinationsList){
+    if (id === destination.id){
+      return destination;
+    }
+  }
+  return null;
+};
+
 //-----------------------------------------------------------------------Main function--------------------------------------------------------------------------------
 const createEditPointTemplate = (pointData, offersByType, destinationsList, isNew, isDisabled) => {
 
 
-  const {basePrice, date_from: dateFrom, date_to: dateTo, destination, offers, type, isSaving, isDeleting } = pointData;
+  const {basePrice, date_from: dateFrom, date_to: dateTo, destination: destinationIdData, offers, type, isSaving, isDeleting } = pointData;
 
   const offersOfType = getOffersOfType(offersByType, type);
 
   const offersOfPointList = createOffersOfPointList(offersOfType, offers, type);
 
+  console.log('destination', destinationIdData);
+
+  const destinationObj = getDestinationById(destinationsList, destinationIdData);
+  console.log('desObj', destinationObj);
 
   return (`<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post" ${(isDisabled ? 'disabled' : '')}>
@@ -107,8 +115,8 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
       <label class="event__label  event__type-output" for="event-destination-1">
         ${type}
       </label>
-      <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destination.name}">
-        ${destinationOptions(destinationsList, destination.name)}
+      <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destinationObj}">
+        ${destinationOptions(destinationsList, destinationObj.name)}
         </select>
     </div>
 
@@ -156,9 +164,9 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 
 
 
-      ${(destination.description) ? '<section class="event__section  event__section--destination"><h3 class="event__section-title  event__section-title--destination">Destination</h3><p class="event__destination-description">' : ''}
-      ${destination.description}
-      ${(destination.description) ? '</p> </section>' : ''}
+      ${(destinationObj.description) ? '<section class="event__section  event__section--destination"><h3 class="event__section-title  event__section-title--destination">Destination</h3><p class="event__destination-description">' : ''}
+      ${destinationObj.description}
+      ${(destinationObj.description) ? '</p> </section>' : ''}
 
 
 
@@ -184,6 +192,7 @@ export default class EditPointView extends AbstractStatefulView {
     this._state = EditPointView.parsePointToState(point);
     this.#offers = offers;
     this.#destinations = destinations;
+    console.log(this.#destinations);
     this.#isDisabled = isDisabled;
     this.#isNew = isNew;
 
@@ -269,8 +278,9 @@ export default class EditPointView extends AbstractStatefulView {
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
     const newDestinationName = evt.target.value;
+    console.log('ndn', newDestinationName);
     this.updateElement({
-      destination: getDestinationByName(this.#destinations, newDestinationName)
+      destination: newDestinationName
     });
   };
 
