@@ -23,8 +23,9 @@ export default class PointsApiService extends ApiService {
     });
 
     const parsedResponse = await ApiService.parseResponse(response);
-
-    return parsedResponse;
+    //console.log('PARSED RESPONSE', parsedResponse);
+    const updatedPoint = this.#adaptToClient(parsedResponse);
+    return updatedPoint;
   }
 
   async addPoint(point) {
@@ -35,7 +36,6 @@ export default class PointsApiService extends ApiService {
       headers: new Headers({ 'Content-Type': 'application/json' }),
     });
     const parsedResponse = await ApiService.parseResponse(response);
-
     return parsedResponse;
   }
 
@@ -59,25 +59,28 @@ export default class PointsApiService extends ApiService {
   }
 
   #adaptToServer(point) {
+    //console.log('point before adapt', point);
     const adaptedPoint = {
       ...point,
       'base_price': Number(point.basePrice),
       'date_from': point.dateFrom,
       'date_to': point.dateTo,
       'is_favorite': point.isFavorite,
+      //'destination' : point.destination.id
     };
     delete adaptedPoint.basePrice;
     delete adaptedPoint.dateFrom;
     delete adaptedPoint.dateTo;
     delete adaptedPoint.isFavorite;
-
+    delete adaptedPoint.point;
+    //console.log('point after adapt', adaptedPoint);
     return adaptedPoint;
   }
 
   #adaptToClient(point) {
     const adaptedPoint = {
       ...point,
-      basePrice: point.base_price,
+      basePrice: Number(point.base_price),
       dateFrom: point.date_from,
       dateTo: point.date_to,
       isFavorite: point.is_favorite,
