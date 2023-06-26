@@ -4,14 +4,15 @@ export const getTimeFromIso = (isoDate) => dayjs(isoDate).format('HH:mm');
 export const getDateFromIso = (isoDate) => dayjs(isoDate).format('MMM DD');
 export const getEditableDateFromIso = (isoDate) => dayjs(isoDate).format('DD/MM/YY');
 const getComparableDateFromIso = (isoDate) => Number(dayjs(isoDate).format('YYYYMMDD'));
-
+const MINUTES_IN_HOUR = 60;
+const HOURS_IN_DAY = 24;
 export const getDurationFromIso = (start, finish) => {
   // if ((dayjs(finish).diff(dayjs(start), 'm')) < 0){
   //   throw 'Finish date is before start!';
   // }
   const duration = {
-    minutes:  (dayjs(finish).diff(dayjs(start), 'm')) % 60 + 1 ,
-    hours:    (dayjs(finish).diff(dayjs(start), 'h')) % 24,
+    minutes:  (dayjs(finish).diff(dayjs(start), 'm')) % MINUTES_IN_HOUR + 1 ,
+    hours:    (dayjs(finish).diff(dayjs(start), 'h')) % HOURS_IN_DAY,
     days:     (dayjs(finish).diff(dayjs(start), 'd'))
   };
   let humanizedDuration = `${duration.minutes}M`;
