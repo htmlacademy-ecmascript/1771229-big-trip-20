@@ -267,11 +267,11 @@ export default class EditPointView extends AbstractStatefulView {
 
   #offerChangeHandler = (evt) => {
     const newState = this._state.offers;
-    if(newState.includes(Number(evt.target.id))) {
-      const index = newState.indexOf(Number(evt.target.id));
+    if(newState.includes((evt.target.id))) {
+      const index = newState.indexOf((evt.target.id));
       newState.splice(index,1);
     } else {
-      newState.push(Number(evt.target.id));
+      newState.push((evt.target.id));
     }
 
     this._setState({

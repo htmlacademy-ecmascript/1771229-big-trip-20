@@ -113,7 +113,6 @@ export default class PointPresenter {
     this.#changeData(
       UserAction.UPDATE,
       UpdateType.PATCH,
-      // eslint-disable-next-line camelcase
       {...this.#point, isFavorite: !this.#point.isFavorite},
     );
 
@@ -131,7 +130,7 @@ export default class PointPresenter {
   #handleFormReset = (point) => {
     this.#changeData(
       UserAction.DELETE,
-      UpdateType.MAJOR,
+      UpdateType.MINOR,
       point,
     );
     this.#replaceEditWithStandard();
