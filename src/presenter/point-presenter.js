@@ -40,15 +40,14 @@ export default class PointPresenter {
 
 
     this.#pointComponent = new PointView(point, this.#offersList, this.#destinationsList);
+    this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
+    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
-    this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
-
     this.#editPointComponent.setFormResetHandler(this.#handleFormReset);
 
-    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
@@ -109,7 +108,7 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    console.log('handleFavoriteClick', this.#point);
+    //console.log('handleFavoriteClick', this.#point);
     this.#changeData(
       UserAction.UPDATE,
       UpdateType.PATCH,
@@ -121,7 +120,7 @@ export default class PointPresenter {
   #handleFormSubmit = (point) => {
     this.#changeData(
       UserAction.UPDATE,
-      UpdateType.MAJOR,
+      UpdateType.MINOR,
       point,
     );
     this.#replaceEditWithStandard();

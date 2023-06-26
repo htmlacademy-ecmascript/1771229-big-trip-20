@@ -23,7 +23,7 @@ export default class PointsApiService extends ApiService {
     });
 
     const parsedResponse = await ApiService.parseResponse(response);
-    console.log('PARSED RESPONSE', parsedResponse);
+    //console.log('PARSED RESPONSE', parsedResponse);
     const updatedPoint = this.#adaptToClient(parsedResponse);
     return updatedPoint;
   }

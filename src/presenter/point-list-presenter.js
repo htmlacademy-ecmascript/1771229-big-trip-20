@@ -70,6 +70,7 @@ export default class PointListPresenter {
   #clearPointsList = () => {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
+    remove(this.#sortComponent);
     if (this.#noPointsView) {
       remove(this.#noPointsView);
       this.#noPointsView = null;
@@ -77,8 +78,11 @@ export default class PointListPresenter {
   };
 
 
-  #renderSort = () => {
-    this.#sortComponent = new SortView(this.#currentSortType);
+  #renderSort = (newSortType) => {
+    if (this.#sortComponent){
+      remove(this.#sortComponent);
+    }
+    this.#sortComponent = new SortView(newSortType);
     this.#sortComponent.setSortChangeHandler(this.#handleSortChange);
 
     render(this.#sortComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
@@ -112,7 +116,9 @@ export default class PointListPresenter {
     const filteredPoints = filterPoints(this.#filterModel.filter, this.points);
     if (filteredPoints.length === 0){
       this.#renderNoPoints(this.#filterModel.filter);
+      return;
     }
+    this.#renderSort(this.#currentSortType);
     filteredPoints.forEach((point) => {
       this.#renderPoint(point);
     });
@@ -125,8 +131,6 @@ export default class PointListPresenter {
   init = (pointListContainer) => {
     this.#pointListContainer = pointListContainer;
 
-    this.#renderSort();
-
     this.#renderPointList();
     this.#renderAllPoints(this.points);
 
@@ -136,7 +140,7 @@ export default class PointListPresenter {
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE:
-        console.log(updateType, update);
+        //console.log(updateType, update);
         this.#pointsModel.updatePoint(updateType, update);
         break;
       case UserAction.ADD:
@@ -169,6 +173,7 @@ export default class PointListPresenter {
       case UpdateType.INIT:
         this.#isLoading = false;
         remove(this.#loadingComponent);
+        this.#renderSort(this.#currentSortType);
         this.#renderAllPoints();
         break;
     }

@@ -77,7 +77,7 @@ const getDestinationById = (destinationsList, id) => {
 };
 
 //-----------------------------------------------------------------------Main function--------------------------------------------------------------------------------
-const createEditPointTemplate = (pointData, offersByType, destinationsList, isNew, isDisabled) => {
+const createEditPointTemplate = (pointData, offersByType, destinationsList, isNew) => {
 
 
   const {basePrice, dateFrom, dateTo, destination: destinationIdData, offers, type, isSaving, isDeleting } = pointData;
@@ -92,7 +92,7 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
   //console.log('desObj', destinationObj);
 
   return (`<li class="trip-events__item">
-<form class="event event--edit" action="#" method="post" ${(isDisabled ? 'disabled' : '')}>
+<form class="event event--edit" action="#" method="post" ${(isSaving || isDeleting ? 'disabled' : '')}>
   <header class="event__header">
     <div class="event__type-wrapper">
       <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -140,7 +140,7 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
     <button class="event__save-btn  btn  btn--blue" type="submit">${isSaving ? 'Saving...' : 'Save'}</button>
     <button class="event__reset-btn" type="reset">
 
-    ${isNew ? 'Cancel' : '' }${!isNew && isDeleting ? 'Deleting' : ''}${!isNew && !isDeleting ? 'Delete' : ''}
+    ${isNew ? 'Cancel' : '' }${!isNew && isDeleting ? 'Deleting...' : ''}${!isNew && !isDeleting ? 'Delete' : ''}
 
     </button>
 
@@ -205,7 +205,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   get template() {
     //console.log(this._state, this.#isNew, this.#isDisabled);
-    return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew, this.#isDisabled);
+    return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew);
   }
 
   setFormSubmitHandler = (callback) => {
