@@ -40,15 +40,13 @@ export default class PointPresenter {
 
 
     this.#pointComponent = new PointView(point, this.#offersList, this.#destinationsList);
+    this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
+    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
     this.#editPointComponent = new EditPointView(point, this.#offersList, this.#destinationsList);
-    this.#pointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickStandard);
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleRollupButtonClickEdit);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
-
     this.#editPointComponent.setFormResetHandler(this.#handleFormReset);
-
-    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
@@ -105,16 +103,18 @@ export default class PointPresenter {
   };
 
   #handleRollupButtonClickEdit = () => {
+    this.#editPointComponent.reset(this.#point);
     this.#replaceEditWithStandard();
   };
 
   #handleFavoriteClick = () => {
-
+    //console.log('handleFavoriteClick', this.#point);
+    const update = {...this.#point, isFavorite: !this.#point.isFavorite};
+    //console.log(update);
     this.#changeData(
       UserAction.UPDATE,
       UpdateType.PATCH,
-      // eslint-disable-next-line camelcase
-      {...this.#point, is_favorite: !this.#point.is_favorite},
+      update,
     );
 
   };
@@ -122,7 +122,7 @@ export default class PointPresenter {
   #handleFormSubmit = (point) => {
     this.#changeData(
       UserAction.UPDATE,
-      UpdateType.MAJOR,
+      UpdateType.MINOR,
       point,
     );
     this.#replaceEditWithStandard();
@@ -131,7 +131,7 @@ export default class PointPresenter {
   #handleFormReset = (point) => {
     this.#changeData(
       UserAction.DELETE,
-      UpdateType.MAJOR,
+      UpdateType.MINOR,
       point,
     );
     this.#replaceEditWithStandard();
