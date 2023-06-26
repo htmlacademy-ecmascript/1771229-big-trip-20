@@ -40,7 +40,6 @@ export default class SortView extends AbstractView {
   }
 
   get template() {
-    //console.log('sort request');
     return createSortTemplate(this.#currentSortType);
   }
 
@@ -51,7 +50,6 @@ export default class SortView extends AbstractView {
 
   #sortChangeHandler = (evt) => {
     evt.preventDefault();
-    //console.log(evt.target.value);
     this._callback.sortChange(evt.target.value);
   };
 }

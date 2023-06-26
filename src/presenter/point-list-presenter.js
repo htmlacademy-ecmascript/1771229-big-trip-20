@@ -4,39 +4,50 @@ import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 
 import PointPresenter from './point-presenter.js';
-//import NewPointPresenter from './new-point-presenter.js';
+import NewPointPresenter from './new-point-presenter.js';
 
-import {SortType, UpdateType, UserAction, Reason} from '../const.js';
+import {SortType, UpdateType, UserAction, Reason, FilterType} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';
 
 export default class PointListPresenter {
 
   #pointListComponent = new PointListView();
   #pointListContainer = null;
-
   #pointsModel = null;
   #filterModel = null;
   #currentSortType = SortType.DEFAULT;
   #pointPresenter = new Map();
-
-
   #loadingComponent = new NoPointsView(Reason.LOADING);
   #isLoading = true;
-
   #sortComponent = null;
 
-  constructor({pointsModel, filterModel}){
-    //!!
+
+  #newPointPresenter = null;
+
+
+  constructor({pointsModel, filterModel, onNewPointDestroy}){
+
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
-    // console.log(this.#pointsModel);
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
+
+    this.#newPointPresenter = new NewPointPresenter({
+      pointListContainer: this.#pointListComponent.element,
+      onDataChange: this.#handleViewAction,
+      onDestroy: onNewPointDestroy
+    });
   }
+
+  createPoint() {
+    this.#currentSortType = SortType.DEFAULT;
+    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.DAY);
+    this.#newPointPresenter.init();
+  }
+
 
   get points() {
     let sortedPoints = [];
-    //console.log('sort on')
     switch (this.#currentSortType) {
       case SortType.DAY:
         sortedPoints = [...this.#pointsModel.points].sort(sortByDay);
@@ -48,13 +59,12 @@ export default class PointListPresenter {
         sortedPoints = [...this.#pointsModel.points].sort(sortByPrice);
         break;
     }
-    //console.log(this.#currentSortType, sortedPoints);
     return sortedPoints;
   }
 
 
   #handleModeChange = () => {
-
+    this.#newPointPresenter.destroy();
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
@@ -68,6 +78,7 @@ export default class PointListPresenter {
 
 
   #clearPointsList = () => {
+    this.#newPointPresenter.destroy();
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
     remove(this.#sortComponent);
@@ -141,7 +152,6 @@ export default class PointListPresenter {
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE:
-        //console.log(updateType, update);
         this.#pointsModel.updatePoint(updateType, update);
         break;
       case UserAction.ADD:
@@ -158,8 +168,6 @@ export default class PointListPresenter {
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
-        console.log(this.#pointPresenter.get(data.id));
-        console.log(data, this.offers, this.destinations);
         this.#pointPresenter.get(data.id).init(data, this.#pointsModel.offers, this.#pointsModel.destinations);
         break;
       case UpdateType.MINOR:

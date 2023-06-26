@@ -7,9 +7,6 @@ const getComparableDateFromIso = (isoDate) => Number(dayjs(isoDate).format('YYYY
 const MINUTES_IN_HOUR = 60;
 const HOURS_IN_DAY = 24;
 export const getDurationFromIso = (start, finish) => {
-  // if ((dayjs(finish).diff(dayjs(start), 'm')) < 0){
-  //   throw 'Finish date is before start!';
-  // }
   const duration = {
     minutes:  (dayjs(finish).diff(dayjs(start), 'm')) % MINUTES_IN_HOUR + 1 ,
     hours:    (dayjs(finish).diff(dayjs(start), 'h')) % HOURS_IN_DAY,
@@ -79,9 +76,7 @@ export const sortByPrice = (point1, point2) => {
   return weight ?? (price2 - price1);
 };
 
-//export const filter
 const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
-  //console.log(dateFrom);
   if (filterType === FilterType.EVERYTHING){
     return true;
   }
@@ -103,10 +98,8 @@ const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
 
 export const filterPoints = (filterType, points) =>{
   const currentDate = new Date().toISOString();
-  //currentDate = currentDate.iso;
   const filteredPointsList = [];
   points.forEach((point) => {
-    //console.log('\npoint',point, filterType, point.date_from, point.date_to, currentDate);
     if (filterByDate(filterType, point.dateFrom, point.dateTo, currentDate)){
       filteredPointsList.push(point);
     }
