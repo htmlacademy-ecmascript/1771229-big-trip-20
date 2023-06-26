@@ -49,7 +49,6 @@ export default class PointPresenter {
     this.#editPointComponent.setFormResetHandler(this.#handleFormReset);
 
 
-
     if (prevPointComponent === null || prevEditPointComponent === null) {
       render(this.#pointComponent, this.#pointListComponent);
       return;
@@ -104,15 +103,18 @@ export default class PointPresenter {
   };
 
   #handleRollupButtonClickEdit = () => {
+    this.#editPointComponent.reset(this.#point);
     this.#replaceEditWithStandard();
   };
 
   #handleFavoriteClick = () => {
     //console.log('handleFavoriteClick', this.#point);
+    const update = {...this.#point, isFavorite: !this.#point.isFavorite};
+    //console.log(update);
     this.#changeData(
       UserAction.UPDATE,
       UpdateType.PATCH,
-      {...this.#point, isFavorite: !this.#point.isFavorite},
+      update,
     );
 
   };
