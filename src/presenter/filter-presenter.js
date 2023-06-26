@@ -1,6 +1,6 @@
 import {render} from '../render.js';
 import FilterView from '../view/filter-view.js';
-import {FilterType, UpdateType} from '../const.js';
+import {FilterType, SortType, UpdateType} from '../const.js';
 import { replace } from '../framework/render.js';
 
 
@@ -13,11 +13,13 @@ export default class FilterPresenter {
   #filterModel = null;
   #pointsModel = null;
 
+  #pointListPresenter = null;
 
-  constructor({ filterContainer, filterModel, pointsModel }) {
+  constructor({ filterContainer, filterModel, pointsModel, pointListPresenter}) {
     this.#filterContainer = filterContainer;
     this.#filterModel = filterModel;
     this.#pointsModel = pointsModel;
+    this.#pointListPresenter = pointListPresenter;
 
     this.#pointsModel.addObserver(this.#handleModelPoint);
     this.#filterModel.addObserver(this.#handleModelPoint);
@@ -48,5 +50,7 @@ export default class FilterPresenter {
       return;
     }
     this.#filterModel.setFilter(UpdateType.MAJOR, filterType);
+
+    this.#pointListPresenter.handleSortChange(SortType.DEFAULT);
   };
 }
