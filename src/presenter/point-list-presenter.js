@@ -83,7 +83,7 @@ export default class PointListPresenter {
       remove(this.#sortComponent);
     }
     this.#sortComponent = new SortView(newSortType);
-    this.#sortComponent.setSortChangeHandler(this.#handleSortChange);
+    this.#sortComponent.setSortChangeHandler(this.handleSortChange);
 
     render(this.#sortComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
   };
@@ -179,7 +179,7 @@ export default class PointListPresenter {
     }
   };
 
-  #handleSortChange = (sortType) => {
+  handleSortChange = (sortType) => {
 
     if (this.#currentSortType === sortType) {
       return;
