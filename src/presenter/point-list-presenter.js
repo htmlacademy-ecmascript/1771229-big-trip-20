@@ -82,6 +82,7 @@ export default class PointListPresenter {
     if (this.#sortComponent){
       remove(this.#sortComponent);
     }
+
     this.#sortComponent = new SortView(newSortType);
     this.#sortComponent.setSortChangeHandler(this.handleSortChange);
 
@@ -157,7 +158,9 @@ export default class PointListPresenter {
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
-        this.#pointPresenter.get(data.id).init(data);
+        console.log(this.#pointPresenter.get(data.id));
+        console.log(data, this.offers, this.destinations);
+        this.#pointPresenter.get(data.id).init(data, this.#pointsModel.offers, this.#pointsModel.destinations);
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)

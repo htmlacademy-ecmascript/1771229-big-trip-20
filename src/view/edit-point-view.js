@@ -18,19 +18,19 @@ const createOfferListItem = (offer, type, isChecked) => {
         </div>
      `;
 };
-const destinationOptions = (destinationsList, destinationObjOfPoint) => {
+const destinationOptions = (destinationsList, destinationInfoOfPoint) => {
   if (!destinationsList) {
     return '';
   }
   let optionsList = '';
   for (const destination of destinationsList){
-    optionsList = `${optionsList}<option value="${destination.id}" ${destinationObjOfPoint.id === destination.id ? 'selected' : ''}>${destination.name}</option>}`;
+    optionsList = `${optionsList}<option value="${destination.id}" ${destinationInfoOfPoint.id === destination.id ? 'selected' : ''}>${destination.name}</option>}`;
   }
   return optionsList;
 };
-const createTypeOptionsList = (typesArray, chosenType) => {
+const createTypeOptionsList = (typesList, chosenType) => {
   let optionsList = '';
-  for (const type of typesArray){
+  for (const type of typesList){
     optionsList = `${optionsList}
           <div class="event__type-item">
             <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${type === chosenType ? 'checked' : ''} >
@@ -88,8 +88,8 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 
   //console.log('destination', destinationIdData);
 
-  const destinationObj = getDestinationById(destinationsList, destinationIdData);
-  //console.log('desObj', destinationObj);
+  const destinationInfo = getDestinationById(destinationsList, destinationIdData);
+
 
   return (`<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post" ${(isSaving || isDeleting ? 'disabled' : '')}>
@@ -116,8 +116,8 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
       <label class="event__label  event__type-output" for="event-destination-1">
         ${type}
       </label>
-      <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destinationObj}">
-        ${destinationOptions(destinationsList, destinationObj)}
+      <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destinationInfo}">
+        ${destinationOptions(destinationsList, destinationInfo)}
         </select>
     </div>
 
@@ -165,9 +165,9 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 
 
 
-      ${(destinationObj.description) ? '<section class="event__section  event__section--destination"><h3 class="event__section-title  event__section-title--destination">Destination</h3><p class="event__destination-description">' : ''}
-      ${destinationObj.description}
-      ${(destinationObj.description) ? '</p> </section>' : ''}
+      ${(destinationInfo.description) ? '<section class="event__section  event__section--destination"><h3 class="event__section-title  event__section-title--destination">Destination</h3><p class="event__destination-description">' : ''}
+      ${destinationInfo.description}
+      ${(destinationInfo.description) ? '</p> </section>' : ''}
 
 
 

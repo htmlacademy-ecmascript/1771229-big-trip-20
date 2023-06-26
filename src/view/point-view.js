@@ -43,7 +43,7 @@ const createPointTemplate = (point, offersByType, destinations) => {
   const offersOfType = getOffersOfType(offersByType, type);
   const offersList = createOffersOfPointList(offersOfType, offers);
   const duration = getDurationFromIso(dateFrom, dateTo);
-  const destinationObj = destinations.find((dest) => dest.id === destination);
+  const destinationInfo = destinations.find((dest) => dest.id === destination);
 
   return(`
 <li class="trip-events__item">
@@ -52,7 +52,7 @@ const createPointTemplate = (point, offersByType, destinations) => {
   <div class="event__type">
     <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="${type} icon">
   </div>
-  <h3 class="event__title">${type} ${destinationObj.name}</h3>
+  <h3 class="event__title">${type} ${destinationInfo.name}</h3>
   <div class="event__schedule">
     <p class="event__time">
       <time class="event__start-time" datetime="${dateFrom}">${timeFrom}</time>
