@@ -18,19 +18,19 @@ const createOfferListItem = (offer, type, isChecked) => {
         </div>
      `;
 };
-const destinationOptions = (destinationsList, destinationObjOfPoint) => {
+const destinationOptions = (destinationsList, destinationInfoOfPoint) => {
   if (!destinationsList) {
     return '';
   }
   let optionsList = '';
   for (const destination of destinationsList){
-    optionsList = `${optionsList}<option value="${destination.id}" ${destinationObjOfPoint.id === destination.id ? 'selected' : ''}>${destination.name}</option>}`;
+    optionsList = `${optionsList}<option value="${destination.id}" ${destinationInfoOfPoint.id === destination.id ? 'selected' : ''}>${destination.name}</option>}`;
   }
   return optionsList;
 };
-const createTypeOptionsList = (typesArray, chosenType) => {
+const createTypeOptionsList = (typesList, chosenType) => {
   let optionsList = '';
-  for (const type of typesArray){
+  for (const type of typesList){
     optionsList = `${optionsList}
           <div class="event__type-item">
             <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${type === chosenType ? 'checked' : ''} >
@@ -69,7 +69,6 @@ const getOffersOfType = (offersByType, pointType) => {
 const getDestinationById = (destinationsList, id) => {
   for (const destination of destinationsList){
     if (id === destination.id){
-      //console.log(destination);
       return destination;
     }
   }
@@ -86,10 +85,8 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 
   const offersOfPointList = createOffersOfPointList(offersOfType, offers, type);
 
-  //console.log('destination', destinationIdData);
+  const destinationInfo = getDestinationById(destinationsList, destinationIdData);
 
-  const destinationObj = getDestinationById(destinationsList, destinationIdData);
-  //console.log('desObj', destinationObj);
 
   return (`<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post" ${(isSaving || isDeleting ? 'disabled' : '')}>
@@ -116,8 +113,8 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
       <label class="event__label  event__type-output" for="event-destination-1">
         ${type}
       </label>
-      <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destinationObj}">
-        ${destinationOptions(destinationsList, destinationObj)}
+      <select class="event__input  event__input--destination" id="event-destination-1" required name="event-destination" value="${destinationInfo}">
+        ${destinationOptions(destinationsList, destinationInfo)}
         </select>
     </div>
 
@@ -165,11 +162,9 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 
 
 
-      ${(destinationObj.description) ? '<section class="event__section  event__section--destination"><h3 class="event__section-title  event__section-title--destination">Destination</h3><p class="event__destination-description">' : ''}
-      ${destinationObj.description}
-      ${(destinationObj.description) ? '</p> </section>' : ''}
-
-
+      ${(destinationInfo.description) ? '<section class="event__section  event__section--destination"><h3 class="event__section-title  event__section-title--destination">Destination</h3><p class="event__destination-description">' : ''}
+      ${destinationInfo.description}
+      ${(destinationInfo.description) ? '</p> </section>' : ''}
 
     </section>
   </section>
@@ -191,10 +186,8 @@ export default class EditPointView extends AbstractStatefulView {
   constructor(point = NEW_POINT, offers, destinations, isNew = false, isDisabled){
     super();
     this._state = EditPointView.parsePointToState(point);
-    //console.log(this._state);
     this.#offers = offers;
     this.#destinations = destinations;
-    //console.log(this.#destinations);
     this.#isDisabled = isDisabled;
     this.#isNew = isNew;
 
@@ -204,7 +197,6 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    //console.log(this._state, this.#isNew, this.#isDisabled);
     return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNew);
   }
 
@@ -234,7 +226,6 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    //console.log('state', this._state, 'offers', this.#offers, 'destinations', this.#destinations);
     this._callback.formSubmit(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations));
     this.element.querySelector('.event__input--price')
       .addEventListener('input', this.#priceInputHandler);
@@ -301,13 +292,11 @@ export default class EditPointView extends AbstractStatefulView {
 
   static parsePointToState = (point) => {
 
-    //console.log('point in parse', point);
     const pointInState = ({...point,
       isDisabled: false,
       isSaving: false,
       isDeleting: false,
     });
-    //console.log(pointInState);
     return (pointInState);
   };
 
@@ -374,7 +363,6 @@ export default class EditPointView extends AbstractStatefulView {
         onChange: this.#dateToChangeHandler,
       },
     );
-    // }
   };
 
 

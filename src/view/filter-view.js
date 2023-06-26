@@ -26,25 +26,14 @@ const createFiltersTemplate = (currentFilterType) => `
 <button class="visually-hidden" type="submit">Accept filter</button>
 </form>
 `;
-/*
-export default class FiltersView extends AbstractView {
-
-  get template() {
-    return createFiltersTemplate();
-  }
-  */
-
 export default class FilterView extends AbstractView {
   #currentFilterType = null;
 
-  #filters = null;
-  #handleFilterChange = null;
-
   constructor(currentFilterType) {
     super();
-    //this.#filters = filters;
+
     this.#currentFilterType = currentFilterType;
-    //this.#handleFilterChange = handleFilterChange;
+
     this.element.addEventListener('change', this.#filterChangeHandler);
   }
 

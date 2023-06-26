@@ -4,14 +4,12 @@ export const getTimeFromIso = (isoDate) => dayjs(isoDate).format('HH:mm');
 export const getDateFromIso = (isoDate) => dayjs(isoDate).format('MMM DD');
 export const getEditableDateFromIso = (isoDate) => dayjs(isoDate).format('DD/MM/YY');
 const getComparableDateFromIso = (isoDate) => Number(dayjs(isoDate).format('YYYYMMDD'));
-
+const MINUTES_IN_HOUR = 60;
+const HOURS_IN_DAY = 24;
 export const getDurationFromIso = (start, finish) => {
-  // if ((dayjs(finish).diff(dayjs(start), 'm')) < 0){
-  //   throw 'Finish date is before start!';
-  // }
   const duration = {
-    minutes:  (dayjs(finish).diff(dayjs(start), 'm')) % 60 + 1 ,
-    hours:    (dayjs(finish).diff(dayjs(start), 'h')) % 24,
+    minutes:  (dayjs(finish).diff(dayjs(start), 'm')) % MINUTES_IN_HOUR + 1 ,
+    hours:    (dayjs(finish).diff(dayjs(start), 'h')) % HOURS_IN_DAY,
     days:     (dayjs(finish).diff(dayjs(start), 'd'))
   };
   let humanizedDuration = `${duration.minutes}M`;
@@ -54,33 +52,31 @@ const getWeightForNull = (a, b) => {
 };
 
 
-export const sortByDay = (a, b) => {
-  a = a.dateFrom;
-  b = b.dateFrom;
-  const weight = getWeightForNull(a, b);
+export const sortByDay = (point1, point2) => {
+  const date1 = point1.dateFrom;
+  const date2 = point2.dateFrom;
+  const weight = getWeightForNull(date1, date2);
 
-  return weight ?? getDuration(a, b);
+  return weight ?? getDuration(date1, date2);
 };
 
-export const sortByTime = (a, b) => {
-  a = getDuration(a.dateFrom, a.dateTo);
-  b = getDuration(b.dateFrom, b.dateTo);
-  const weight = getWeightForNull(a, b);
+export const sortByTime = (point1, point2) => {
+  const duration1 = getDuration(point1.dateFrom, point1.dateTo);
+  const duration2 = getDuration(point2.dateFrom, point2.dateTo);
+  const weight = getWeightForNull(duration1, duration2);
 
-  return weight ?? (b - a);
+  return weight ?? (duration2 - duration1);
 };
 
-export const sortByPrice = (a, b) => {
-  a = a.basePrice;
-  b = b.basePrice;
-  const weight = getWeightForNull(a, b);
+export const sortByPrice = (point1, point2) => {
+  const price1 = point1.basePrice;
+  const price2 = point2.basePrice;
+  const weight = getWeightForNull(price1, price2);
 
-  return weight ?? (b - a);
+  return weight ?? (price2 - price1);
 };
 
-//export const filter
 const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
-  //console.log(dateFrom);
   if (filterType === FilterType.EVERYTHING){
     return true;
   }
@@ -102,10 +98,8 @@ const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
 
 export const filterPoints = (filterType, points) =>{
   const currentDate = new Date().toISOString();
-  //currentDate = currentDate.iso;
   const filteredPointsList = [];
   points.forEach((point) => {
-    //console.log('\npoint',point, filterType, point.date_from, point.date_to, currentDate);
     if (filterByDate(filterType, point.dateFrom, point.dateTo, currentDate)){
       filteredPointsList.push(point);
     }
