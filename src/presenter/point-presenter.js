@@ -8,12 +8,8 @@ export default class PointPresenter {
   #pointComponent = null;
   #editPointComponent = null;
   #point = null;
-
   #offersList = null;
-
-  // #pointsModel = new PointsModel;
   #changeData = null;
-
   #changeMode = null;
   #isInEditMode = false;
 
@@ -30,8 +26,6 @@ export default class PointPresenter {
   init = (point, offers, destinations) => {
     this.#point = point;
 
-    // this.#offersList = [...this.#pointsModel.offers];
-    // this.#destinationsList = [...this.#pointsModel.destinations];
     this.#offersList = [...offers];
     this.#destinationsList = [...destinations];
 
@@ -108,9 +102,7 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    //console.log('handleFavoriteClick', this.#point);
     const update = {...this.#point, isFavorite: !this.#point.isFavorite};
-    //console.log(update);
     this.#changeData(
       UserAction.UPDATE,
       UpdateType.PATCH,

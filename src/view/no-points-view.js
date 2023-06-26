@@ -20,7 +20,6 @@ export default class NoPointsView extends AbstractView {
       default:
         return NoPointsExplanation.DEFAULT;
     }
-    //console.log('out of case');
   }
 
   #reason = null;
@@ -31,7 +30,6 @@ export default class NoPointsView extends AbstractView {
   }
 
   get template() {
-    //console.log('reason', this.getExpanationForReason(this.#reason));
     return createNoPointsTemplate(this.getExpanationForReason(this.#reason));
   }
 }
