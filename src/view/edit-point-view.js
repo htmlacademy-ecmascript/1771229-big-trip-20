@@ -234,7 +234,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    console.log('state', this._state, 'offers', this.#offers, 'destinations', this.#destinations);
+    //console.log('state', this._state, 'offers', this.#offers, 'destinations', this.#destinations);
     this._callback.formSubmit(EditPointView.parseStateToPoint(this._state, this.#offers, this.#destinations));
     this.element.querySelector('.event__input--price')
       .addEventListener('input', this.#priceInputHandler);
@@ -301,13 +301,13 @@ export default class EditPointView extends AbstractStatefulView {
 
   static parsePointToState = (point) => {
 
-    console.log('point in parse', point);
+    //console.log('point in parse', point);
     const pointInState = ({...point,
       isDisabled: false,
       isSaving: false,
       isDeleting: false,
     });
-    console.log(pointInState);
+    //console.log(pointInState);
     return (pointInState);
   };
 
