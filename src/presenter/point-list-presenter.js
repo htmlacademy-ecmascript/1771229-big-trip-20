@@ -42,7 +42,8 @@ export default class PointListPresenter {
   createPoint() {
     this.#currentSortType = SortType.DEFAULT;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.DAY);
-    this.#newPointPresenter.init();
+    // points временно
+    this.#newPointPresenter.init(this.points[0], this.#pointsModel.offers, this.#pointsModel.destinations);
   }
 
 
