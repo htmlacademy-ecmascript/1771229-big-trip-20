@@ -6,7 +6,7 @@ import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 
-import {SortType, UpdateType, UserAction, Reason, FilterType} from '../const.js';
+import {SortType, UpdateType, UserAction, Reason, FilterType, DEFAULT_POINT_DATA} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';
 
 export default class PointListPresenter {

@@ -36,3 +36,14 @@ export const NoPointsExplanation = {
 export const Reason = {
   LOADING : 'loading',
 };
+
+export const DEFAULT_POINT_DATA = {
+
+  'basePrice': 0,
+  'dateFrom': new Date().toISOString(),
+  'dateTo': new Date().toISOString(),
+  //'destination': destinations(0).id,
+  'isFavorite' : false,
+  'offers' : [],
+  //'type': offers(0).type
+};
