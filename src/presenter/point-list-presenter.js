@@ -20,18 +20,17 @@ export default class PointListPresenter {
   #loadingComponent = new NoPointsView(Reason.LOADING);
   #isLoading = true;
   #sortComponent = null;
-
-
+  #noPointsView = null;
   #newPointPresenter = null;
 
 
-  constructor({pointsModel, filterModel, onNewPointDestroy}){
+  constructor(pointsModel, filterModel, onNewPointDestroy){
 
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
-
+    console.log('plp cons', onNewPointDestroy);
     this.#newPointPresenter = new NewPointPresenter({
       pointListContainer: this.#pointListComponent.element,
       onDataChange: this.#handleViewAction,
@@ -39,11 +38,23 @@ export default class PointListPresenter {
     });
   }
 
+  #newPointData = (data) => {
+    const newPoint = {
+      ...data,
+      'destination': this.#pointsModel.destinations[0].id,
+      'type': this.#pointsModel.offers[0].type
+    };
+    return newPoint;
+  };
+
   createPoint() {
     this.#currentSortType = SortType.DEFAULT;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.DAY);
     // points временно
-    this.#newPointPresenter.init(this.points[0], this.#pointsModel.offers, this.#pointsModel.destinations);
+    const point = this.#newPointData(DEFAULT_POINT_DATA);
+    this.#newPointPresenter.init(point,
+      this.#pointsModel.offers,
+      this.#pointsModel.destinations);
   }
 
 
@@ -106,9 +117,6 @@ export default class PointListPresenter {
     render(this.#pointListComponent, this.#pointListContainer);
   };
   //----------------------------------------------------------------------
-
-
-  #noPointsView = null;
 
   #renderNoPoints = (reason) => {
     this.#noPointsView = new NoPointsView(reason);

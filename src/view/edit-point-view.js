@@ -173,8 +173,6 @@ const createEditPointTemplate = (pointData, offersByType, destinationsList, isNe
 `);
 };
 
-const NEW_POINT = {};
-
 export default class EditPointView extends AbstractStatefulView {
 
   #datepickerFrom = null;
@@ -183,7 +181,7 @@ export default class EditPointView extends AbstractStatefulView {
   #destinations = null;
   #isNew = null;
   #isDisabled = null;
-  constructor(point = NEW_POINT, offers, destinations, isNew = false, isDisabled){
+  constructor(point, offers, destinations, isNew = false, isDisabled){
     super();
     this._state = EditPointView.parsePointToState(point);
     this.#offers = offers;

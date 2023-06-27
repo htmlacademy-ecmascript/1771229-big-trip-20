@@ -19,22 +19,21 @@ const pointsModel = new PointsModel({pointsApiService});
 const filterModel = new FilterModel();
 
 pointsModel.init();
-
-const pointListPresenter = new PointListPresenter({pointsModel, filterModel, handleNewPointFormClose});
-
-
-pointListPresenter.init(pointListContainer);
-const filterPresenter = new FilterPresenter({filterContainer, filterModel, pointsModel, pointListPresenter});
-filterPresenter.init(filterContainer);
-
-
 const newButtonComponent = new NewButtonView({
   onClick: handleNewPointButtonClick
 });
 
-function handleNewPointFormClose() {
+const handleNewPointFormClose = () => {
   newButtonComponent.element.disabled = false;
-}
+};
+console.log(handleNewPointFormClose);
+const pointListPresenter = new PointListPresenter(pointsModel, filterModel, handleNewPointFormClose);
+pointListPresenter.init(pointListContainer);
+
+
+const filterPresenter = new FilterPresenter({filterContainer, filterModel, pointsModel, pointListPresenter});
+filterPresenter.init(filterContainer);
+
 
 function handleNewPointButtonClick() {
   pointListPresenter.createPoint();

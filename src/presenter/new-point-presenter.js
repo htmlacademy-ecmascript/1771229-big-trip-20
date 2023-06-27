@@ -11,9 +11,10 @@ export default class NewPointPresenter {
   #pointEditComponent = null;
   #point = null;
 
-  #offersList = null;
-  #destinationsList = null;
+  #offersList = [];
+  #destinationsList = [];
   constructor({pointListContainer, onDataChange, onDestroy}) {
+    console.log('npp constructor', onDestroy);
     this.#pointListContainer = pointListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
@@ -27,7 +28,7 @@ export default class NewPointPresenter {
     if (this.#pointEditComponent !== null) {
       return;
     }
-
+    console.log('npp',this.#point, this.#offersList, this.#destinationsList, true);
     this.#pointEditComponent = new EditPointView(this.#point, this.#offersList, this.#destinationsList, true);
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setFormResetHandler(this.#handleFormReset);
@@ -41,7 +42,7 @@ export default class NewPointPresenter {
     if (this.#pointEditComponent === null) {
       return;
     }
-
+    console.log(this.#handleDestroy);
     this.#handleDestroy();
 
     remove(this.#pointEditComponent);

@@ -3,7 +3,7 @@ import { UpdateType } from '../const.js';
 
 export default class PointsModel extends Observable {
   #points = [];
-  #offersByType = [];
+  #offers = [];
   #destinations = [];
   #pointsApiService = null;
 
@@ -16,7 +16,7 @@ export default class PointsModel extends Observable {
   async init() {
     try {
       this.#points = await this.#pointsApiService.points;
-      this.#offersByType = await this.#pointsApiService.offers;
+      this.#offers = await this.#pointsApiService.offers;
       this.#destinations = await this.#pointsApiService.destinations;
     } catch(err) {
       this.#points = [];
@@ -99,7 +99,7 @@ export default class PointsModel extends Observable {
   }
 
   get offers() {
-    return this.#offersByType;
+    return this.#offers;
   }
 
   get destinations() {

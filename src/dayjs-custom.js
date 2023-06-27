@@ -98,11 +98,11 @@ const filterByDate = (filterType, dateFrom, dateTo, currentDate)=> {
 
 export const filterPoints = (filterType, points) =>{
   const currentDate = new Date().toISOString();
-  const filteredPointsList = [];
+  const filteredPoints = [];
   points.forEach((point) => {
     if (filterByDate(filterType, point.dateFrom, point.dateTo, currentDate)){
-      filteredPointsList.push(point);
+      filteredPoints.push(point);
     }
   });
-  return filteredPointsList;
+  return filteredPoints;
 };
