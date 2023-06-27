@@ -1,6 +1,5 @@
 import {remove, render, RenderPosition} from '../framework/render.js';
 import EditPointView from '../view/edit-point-view.js';
-//import {nanoid} from 'nanoid';
 import {UserAction, UpdateType} from '../const.js';
 
 export default class NewPointPresenter {
@@ -14,7 +13,6 @@ export default class NewPointPresenter {
   #offersList = [];
   #destinationsList = [];
   constructor({pointListContainer, onDataChange, onDestroy}) {
-    console.log('npp constructor', onDestroy);
     this.#pointListContainer = pointListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
@@ -28,7 +26,6 @@ export default class NewPointPresenter {
     if (this.#pointEditComponent !== null) {
       return;
     }
-    console.log('npp',this.#point, this.#offersList, this.#destinationsList, true);
     this.#pointEditComponent = new EditPointView(this.#point, this.#offersList, this.#destinationsList, true);
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setFormResetHandler(this.#handleFormReset);
@@ -42,7 +39,6 @@ export default class NewPointPresenter {
     if (this.#pointEditComponent === null) {
       return;
     }
-    console.log(this.#handleDestroy);
     this.#handleDestroy();
 
     remove(this.#pointEditComponent);
@@ -56,8 +52,6 @@ export default class NewPointPresenter {
     this.#handleDataChange(
       UserAction.ADD,
       UpdateType.MINOR,
-      // Пока у нас нет сервера, который бы после сохранения
-      // выдывал честный id задачи, нам нужно позаботиться об этом самим
       point,
     );
     this.destroy();
