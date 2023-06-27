@@ -36,7 +36,8 @@ export default class PointsApiService extends ApiService {
       headers: new Headers({ 'Content-Type': 'application/json' }),
     });
     const parsedResponse = await ApiService.parseResponse(response);
-    return parsedResponse;
+    const updatedPoint = this.#adaptToClient(parsedResponse);
+    return updatedPoint;
   }
 
   async deletePoint(point) {
