@@ -117,7 +117,6 @@ export default class PointPresenter {
       UpdateType.MINOR,
       point,
     );
-    this.#replaceEditWithStandard();
   };
 
   #handleFormReset = (point) => {
@@ -126,7 +125,7 @@ export default class PointPresenter {
       UpdateType.MINOR,
       point,
     );
-    this.#replaceEditWithStandard();
+
   };
 
   reset = (point) => {
