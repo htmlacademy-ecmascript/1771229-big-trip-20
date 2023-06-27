@@ -92,7 +92,9 @@ export default class PointListPresenter {
   };
 
   #renderPoint = (point) => {
-
+    if (!point.id){
+      return;
+    }
     const pointPresenter = new PointPresenter(this.#pointListComponent.element, this.#handleViewAction, this.#handleModeChange);
 
     pointPresenter.init(point, this.#pointsModel.offers, this.#pointsModel.destinations);
