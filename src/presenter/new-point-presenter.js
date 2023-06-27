@@ -54,7 +54,7 @@ export default class NewPointPresenter {
 
   #handleFormSubmit = (point) => {
     this.#handleDataChange(
-      UserAction.ADD_TASK,
+      UserAction.ADD,
       UpdateType.MINOR,
       // Пока у нас нет сервера, который бы после сохранения
       // выдывал честный id задачи, нам нужно позаботиться об этом самим
