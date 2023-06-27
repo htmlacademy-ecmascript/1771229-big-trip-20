@@ -26,7 +26,6 @@ const newButtonComponent = new NewButtonView({
 const handleNewPointFormClose = () => {
   newButtonComponent.element.disabled = false;
 };
-console.log(handleNewPointFormClose);
 const pointListPresenter = new PointListPresenter(pointsModel, filterModel, handleNewPointFormClose);
 pointListPresenter.init(pointListContainer);
 

@@ -9,6 +9,13 @@ import NewPointPresenter from './new-point-presenter.js';
 import {SortType, UpdateType, UserAction, Reason, FilterType, DEFAULT_POINT_DATA} from '../const.js';
 import { sortByDay, sortByPrice, sortByTime, filterPoints} from '../dayjs-custom.js';
 
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
+
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
 export default class PointListPresenter {
 
   #pointListComponent = new PointListView();
@@ -16,12 +23,16 @@ export default class PointListPresenter {
   #pointsModel = null;
   #filterModel = null;
   #currentSortType = SortType.DEFAULT;
-  #pointPresenter = new Map();
+  #pointPresenters = new Map();
   #loadingComponent = new NoPointsView(Reason.LOADING);
   #isLoading = true;
   #sortComponent = null;
   #noPointsView = null;
   #newPointPresenter = null;
+  #uiBlocker = new UiBlocker({
+    lowerLimit: TimeLimit.LOWER_LIMIT,
+    upperLimit: TimeLimit.UPPER_LIMIT
+  });
 
 
   constructor(pointsModel, filterModel, onNewPointDestroy){
@@ -30,7 +41,6 @@ export default class PointListPresenter {
     this.#filterModel = filterModel;
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
-    console.log('plp cons', onNewPointDestroy);
     this.#newPointPresenter = new NewPointPresenter({
       pointListContainer: this.#pointListComponent.element,
       onDataChange: this.#handleViewAction,
@@ -78,7 +88,7 @@ export default class PointListPresenter {
 
   #handleModeChange = () => {
     this.#newPointPresenter.destroy();
-    this.#pointPresenter.forEach((presenter) => presenter.resetView());
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
 
   #renderPoint = (point) => {
@@ -86,14 +96,14 @@ export default class PointListPresenter {
     const pointPresenter = new PointPresenter(this.#pointListComponent.element, this.#handleViewAction, this.#handleModeChange);
 
     pointPresenter.init(point, this.#pointsModel.offers, this.#pointsModel.destinations);
-    this.#pointPresenter.set(point.id, pointPresenter);
+    this.#pointPresenters.set(point.id, pointPresenter);
   };
 
 
   #clearPointsList = () => {
     this.#newPointPresenter.destroy();
-    this.#pointPresenter.forEach((presenter) => presenter.destroy());
-    this.#pointPresenter.clear();
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
     remove(this.#sortComponent);
     if (this.#noPointsView) {
       remove(this.#noPointsView);
@@ -159,26 +169,43 @@ export default class PointListPresenter {
 
   };
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleViewAction = async (actionType, updateType, update) => {
+    this.#uiBlocker.block();
     switch (actionType) {
       case UserAction.UPDATE:
-        this.#pointsModel.updatePoint(updateType, update);
+        this.#pointPresenters.get(update.id).setSaving();
+        try {
+          await this.#pointsModel.updatePoint(updateType, update);
+        } catch(err) {
+          this.#pointPresenters.get(update.id).setAborting();
+        }
         break;
       case UserAction.ADD:
-        this.#pointsModel.addPoint(updateType, update);
+        this.#newPointPresenter.setSaving();
+        try {
+          await this.#pointsModel.addPoint(updateType, update);
+        } catch(err) {
+          this.#newPointPresenter.setAborting();
+        }
         break;
       case UserAction.DELETE:
-        this.#pointsModel.deletePoint(updateType, update);
+        this.#pointPresenters.get(update.id).setDeleting();
+        try {
+          await this.#pointsModel.deletePoint(updateType, update);
+        } catch(err) {
+          this.#pointPresenters.get(update.id).setAborting();
+        }
         break;
 
     }
+    this.#uiBlocker.unblock();
   };
 
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
-        this.#pointPresenter.get(data.id).init(data, this.#pointsModel.offers, this.#pointsModel.destinations);
+        this.#pointPresenters.get(data.id).init(data, this.#pointsModel.offers, this.#pointsModel.destinations);
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)
