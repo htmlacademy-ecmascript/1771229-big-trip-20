@@ -49,12 +49,13 @@ export default class PointListPresenter {
 
   createPoint() {
     this.#currentSortType = SortType.DEFAULT;
-    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.DAY);
-    // points временно
+    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+
     const point = this.#newPointData(DEFAULT_POINT_DATA);
     this.#newPointPresenter.init(point,
       this.#pointsModel.offers,
       this.#pointsModel.destinations);
+    this.#renderSort(this.#currentSortType);
   }
 
 
